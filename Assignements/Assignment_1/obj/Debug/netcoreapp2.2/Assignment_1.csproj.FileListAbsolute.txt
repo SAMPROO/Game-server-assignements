@@ -1,0 +1,11 @@
+C:\School\Tieto- ja viestintätekniikka\3y\Game Server Programming\Assignements\Assignment_1\obj\Debug\netcoreapp2.2\Assignment_1.csprojAssemblyReference.cache
+C:\School\Tieto- ja viestintätekniikka\3y\Game Server Programming\Assignements\Assignment_1\obj\Debug\netcoreapp2.2\Assignment_1.csproj.CoreCompileInputs.cache
+C:\School\Tieto- ja viestintätekniikka\3y\Game Server Programming\Assignements\Assignment_1\obj\Debug\netcoreapp2.2\Assignment_1.AssemblyInfoInputs.cache
+C:\School\Tieto- ja viestintätekniikka\3y\Game Server Programming\Assignements\Assignment_1\obj\Debug\netcoreapp2.2\Assignment_1.AssemblyInfo.cs
+c:\School\Tieto- ja viestintätekniikka\3y\Game Server Programming\Assignements\Assignment_1\bin\Debug\netcoreapp2.2\Assignment_1.deps.json
+c:\School\Tieto- ja viestintätekniikka\3y\Game Server Programming\Assignements\Assignment_1\bin\Debug\netcoreapp2.2\Assignment_1.runtimeconfig.json
+c:\School\Tieto- ja viestintätekniikka\3y\Game Server Programming\Assignements\Assignment_1\bin\Debug\netcoreapp2.2\Assignment_1.runtimeconfig.dev.json
+c:\School\Tieto- ja viestintätekniikka\3y\Game Server Programming\Assignements\Assignment_1\bin\Debug\netcoreapp2.2\Assignment_1.dll
+c:\School\Tieto- ja viestintätekniikka\3y\Game Server Programming\Assignements\Assignment_1\bin\Debug\netcoreapp2.2\Assignment_1.pdb
+c:\School\Tieto- ja viestintätekniikka\3y\Game Server Programming\Assignements\Assignment_1\obj\Debug\netcoreapp2.2\Assignment_1.dll
+c:\School\Tieto- ja viestintätekniikka\3y\Game Server Programming\Assignements\Assignment_1\obj\Debug\netcoreapp2.2\Assignment_1.pdb
