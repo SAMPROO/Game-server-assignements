@@ -4,7 +4,6 @@ C:\GitHub\Game-server-assignements\Assignements\Assignment_2\bin\Debug\netcoreap
 C:\GitHub\Game-server-assignements\Assignements\Assignment_2\bin\Debug\netcoreapp2.2\Assignment_2.dll
 C:\GitHub\Game-server-assignements\Assignements\Assignment_2\bin\Debug\netcoreapp2.2\Assignment_2.pdb
 C:\GitHub\Game-server-assignements\Assignements\Assignment_2\obj\Debug\netcoreapp2.2\Assignment_2.csprojAssemblyReference.cache
-C:\GitHub\Game-server-assignements\Assignements\Assignment_2\obj\Debug\netcoreapp2.2\Assignment_2.csproj.CoreCompileInputs.cache
 C:\GitHub\Game-server-assignements\Assignements\Assignment_2\obj\Debug\netcoreapp2.2\Assignment_2.AssemblyInfoInputs.cache
 C:\GitHub\Game-server-assignements\Assignements\Assignment_2\obj\Debug\netcoreapp2.2\Assignment_2.AssemblyInfo.cs
 C:\GitHub\Game-server-assignements\Assignements\Assignment_2\obj\Debug\netcoreapp2.2\Assignment_2.dll
