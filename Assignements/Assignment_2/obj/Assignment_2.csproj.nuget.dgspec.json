@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\GitHub\\Game-server-assignements\\Assignements\\Assignment_1\\Assignment_1.csproj": {}
+    "C:\\GitHub\\Game-server-assignements\\Assignements\\Assignment_2\\Assignment_2.csproj": {}
   },
   "projects": {
-    "C:\\GitHub\\Game-server-assignements\\Assignements\\Assignment_1\\Assignment_1.csproj": {
+    "C:\\GitHub\\Game-server-assignements\\Assignements\\Assignment_2\\Assignment_2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\GitHub\\Game-server-assignements\\Assignements\\Assignment_1\\Assignment_1.csproj",
-        "projectName": "Assignment_1",
-        "projectPath": "C:\\GitHub\\Game-server-assignements\\Assignements\\Assignment_1\\Assignment_1.csproj",
+        "projectUniqueName": "C:\\GitHub\\Game-server-assignements\\Assignements\\Assignment_2\\Assignment_2.csproj",
+        "projectName": "Assignment_2",
+        "projectPath": "C:\\GitHub\\Game-server-assignements\\Assignements\\Assignment_2\\Assignment_2.csproj",
         "packagesPath": "C:\\Users\\Sampo\\.nuget\\packages\\",
-        "outputPath": "C:\\GitHub\\Game-server-assignements\\Assignements\\Assignment_1\\obj\\",
+        "outputPath": "C:\\GitHub\\Game-server-assignements\\Assignements\\Assignment_2\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
