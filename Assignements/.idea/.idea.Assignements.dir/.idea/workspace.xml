@@ -37,6 +37,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/Assignment_2/Player.cs" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="SolutionBuilderGeneralOptionsPageId" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -81,7 +82,7 @@
       <option name="presentableId" value="Default" />
       <updated>1570178878885</updated>
       <workItem from="1570178882471" duration="26000" />
-      <workItem from="1570178999773" duration="6313000" />
+      <workItem from="1570178999773" duration="7012000" />
     </task>
     <servers />
   </component>

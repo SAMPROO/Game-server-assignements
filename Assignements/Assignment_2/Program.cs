@@ -53,8 +53,7 @@ namespace dotnetKole
             
             // 6
             //p = PrintItem => ProcessEachItem;
-            ProcessEachItem = PrintItem => p;
-            
+            //
 
         }
         
