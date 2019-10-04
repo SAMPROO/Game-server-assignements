@@ -1,27 +1,28 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Game-server-assignements\\Assignements\\Assignment_3\\Assignment_3.csproj": {}
+    "C:\\GitHub\\Game-server-assignements\\Assignements\\Assignment_3\\Assignment_3.csproj": {}
   },
   "projects": {
-    "D:\\Game-server-assignements\\Assignements\\Assignment_3\\Assignment_3.csproj": {
+    "C:\\GitHub\\Game-server-assignements\\Assignements\\Assignment_3\\Assignment_3.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Game-server-assignements\\Assignements\\Assignment_3\\Assignment_3.csproj",
+        "projectUniqueName": "C:\\GitHub\\Game-server-assignements\\Assignements\\Assignment_3\\Assignment_3.csproj",
         "projectName": "Assignment_3",
-        "projectPath": "D:\\Game-server-assignements\\Assignements\\Assignment_3\\Assignment_3.csproj",
-        "packagesPath": "C:\\Users\\Plttr\\.nuget\\packages\\",
-        "outputPath": "D:\\Game-server-assignements\\Assignements\\Assignment_3\\obj\\",
+        "projectPath": "C:\\GitHub\\Game-server-assignements\\Assignements\\Assignment_3\\Assignment_3.csproj",
+        "packagesPath": "C:\\Users\\Sampo\\.nuget\\packages\\",
+        "outputPath": "C:\\GitHub\\Game-server-assignements\\Assignements\\Assignment_3\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Plttr\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\Sampo\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -37,6 +38,12 @@
       },
       "frameworks": {
         "netcoreapp3.0": {
+          "dependencies": {
+            "NewtonSoft.Json": {
+              "target": "Package",
+              "version": "[12.0.2, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
