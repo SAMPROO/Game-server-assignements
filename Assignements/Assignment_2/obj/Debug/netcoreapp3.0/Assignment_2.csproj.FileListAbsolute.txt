@@ -11,3 +11,16 @@ C:\GitHub\Game-server-assignements\Assignements\Assignment_2\bin\Debug\netcoreap
 C:\GitHub\Game-server-assignements\Assignements\Assignment_2\obj\Debug\netcoreapp3.0\Assignment_2.csproj.CopyComplete
 C:\GitHub\Game-server-assignements\Assignements\Assignment_2\obj\Debug\netcoreapp3.0\Assignment_2.dll
 C:\GitHub\Game-server-assignements\Assignements\Assignment_2\obj\Debug\netcoreapp3.0\Assignment_2.pdb
+D:\Game-server-assignements\Assignements\Assignment_2\bin\Debug\netcoreapp3.0\Assignment_2.exe
+D:\Game-server-assignements\Assignements\Assignment_2\bin\Debug\netcoreapp3.0\Assignment_2.deps.json
+D:\Game-server-assignements\Assignements\Assignment_2\bin\Debug\netcoreapp3.0\Assignment_2.runtimeconfig.json
+D:\Game-server-assignements\Assignements\Assignment_2\bin\Debug\netcoreapp3.0\Assignment_2.runtimeconfig.dev.json
+D:\Game-server-assignements\Assignements\Assignment_2\bin\Debug\netcoreapp3.0\Assignment_2.dll
+D:\Game-server-assignements\Assignements\Assignment_2\bin\Debug\netcoreapp3.0\Assignment_2.pdb
+D:\Game-server-assignements\Assignements\Assignment_2\bin\Debug\netcoreapp3.0\Newtonsoft.Json.dll
+D:\Game-server-assignements\Assignements\Assignment_2\obj\Debug\netcoreapp3.0\Assignment_2.csprojAssemblyReference.cache
+D:\Game-server-assignements\Assignements\Assignment_2\obj\Debug\netcoreapp3.0\Assignment_2.AssemblyInfoInputs.cache
+D:\Game-server-assignements\Assignements\Assignment_2\obj\Debug\netcoreapp3.0\Assignment_2.AssemblyInfo.cs
+D:\Game-server-assignements\Assignements\Assignment_2\obj\Debug\netcoreapp3.0\Assignment_2.csproj.CopyComplete
+D:\Game-server-assignements\Assignements\Assignment_2\obj\Debug\netcoreapp3.0\Assignment_2.dll
+D:\Game-server-assignements\Assignements\Assignment_2\obj\Debug\netcoreapp3.0\Assignment_2.pdb

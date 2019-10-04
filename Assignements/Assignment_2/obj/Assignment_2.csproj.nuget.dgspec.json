@@ -1,28 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "C:\\GitHub\\Game-server-assignements\\Assignements\\Assignment_2\\Assignment_2.csproj": {}
+    "D:\\Game-server-assignements\\Assignements\\Assignment_2\\Assignment_2.csproj": {}
   },
   "projects": {
-    "C:\\GitHub\\Game-server-assignements\\Assignements\\Assignment_2\\Assignment_2.csproj": {
+    "D:\\Game-server-assignements\\Assignements\\Assignment_2\\Assignment_2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\GitHub\\Game-server-assignements\\Assignements\\Assignment_2\\Assignment_2.csproj",
+        "projectUniqueName": "D:\\Game-server-assignements\\Assignements\\Assignment_2\\Assignment_2.csproj",
         "projectName": "Assignment_2",
-        "projectPath": "C:\\GitHub\\Game-server-assignements\\Assignements\\Assignment_2\\Assignment_2.csproj",
-        "packagesPath": "C:\\Users\\Sampo\\.nuget\\packages\\",
-        "outputPath": "C:\\GitHub\\Game-server-assignements\\Assignements\\Assignment_2\\obj\\",
+        "projectPath": "D:\\Game-server-assignements\\Assignements\\Assignment_2\\Assignment_2.csproj",
+        "packagesPath": "C:\\Users\\Plttr\\.nuget\\packages\\",
+        "outputPath": "D:\\Game-server-assignements\\Assignements\\Assignment_2\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Sampo\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Plttr\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

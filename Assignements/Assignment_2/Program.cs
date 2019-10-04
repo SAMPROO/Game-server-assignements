@@ -52,8 +52,21 @@ namespace dotnetKole
             ProcessEachItem(p, PrintItem);
             
             // 6
-            //ProcessEachItem();
+            ProcessEachItem(p, (item) => {
+                Console.WriteLine("-------------------");
+                Console.WriteLine("Item ID: " + item.Id);
+                Console.WriteLine("Item Level: " + item.Level);
 
+            });
+
+            // 7
+            Game<Player> game = new Game<Player>(players);
+            var topPlayers = game.GetTop10Players();
+            Console.WriteLine($"Gamers amount: {topPlayers.Length}");
+            foreach(var player in topPlayers)
+            {
+                Console.WriteLine(player.Score);
+            }
         }
         
         public static List<Player> CreatePlayers(int amount)
@@ -64,7 +77,8 @@ namespace dotnetKole
             for (int i = 0; i < amount; i++)
             {
                 Player player = new Player();
-
+                Random rnd1 = new Random();
+                player.Score = rnd1.Next(1,100);
                 var items = new List<Item>();
 
                 for (int j = 0; j < 5; j++)
