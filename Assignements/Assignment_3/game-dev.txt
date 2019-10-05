@@ -1,7 +1,7 @@
 {
   "players": [
     {
-      "Id": "36ed63d6-137c-4b38-85c6-3461772e4c16",
+      "Id": "e55601db-286f-45dc-9c1d-5fd98033eda6",
       "Name": "Arnold Schwarzenegger",
       "Score": 0,
       "Level": 0,
@@ -9,7 +9,23 @@
       "CreationTime": "0001-01-01T00:00:00"
     },
     {
-      "Id": "a12a053a-c295-492a-a714-fb65daaaa414",
+      "Id": "32d5bac4-30d8-4bbc-9b03-6951efd3ced0",
+      "Name": "Arnold Schwarzenegger",
+      "Score": 0,
+      "Level": 0,
+      "IsBanned": false,
+      "CreationTime": "0001-01-01T00:00:00"
+    },
+    {
+      "Id": "f0f63a7f-caf2-40d9-bfc1-b8a0755d8e07",
+      "Name": "Arnold Schwarzenegger",
+      "Score": 0,
+      "Level": 0,
+      "IsBanned": false,
+      "CreationTime": "0001-01-01T00:00:00"
+    },
+    {
+      "Id": "5fdff6f8-2fd0-4b71-a70f-1ac51e60568c",
       "Name": "Arnold Schwarzenegger",
       "Score": 0,
       "Level": 0,

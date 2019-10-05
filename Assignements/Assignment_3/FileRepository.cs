@@ -24,15 +24,6 @@ namespace dotnetKole
             newPlayer.Level = 0;
             newPlayer.Score = 0;
             newPlayer.IsBanned = false;
-            
-            /* 
-            // Read
-            var jsonData = System.IO.File.ReadAllText(dataFilePath);
-            // Convert to JSON
-            var json = JsonConvert.SerializeObject(new { player = newPlayer }, Formatting.Indented);
-            // Write
-            System.IO.File.AppendAllText(dataFilePath, json);
-            */
 
             string jsonData = System.IO.File.ReadAllText(dataFilePath);
 
@@ -59,6 +50,7 @@ namespace dotnetKole
             var json = JsonConvert.SerializeObject(addPlayer,Formatting.Indented);
 
             System.IO.File.WriteAllText(dataFilePath,json);
+            Console.WriteLine("Player created: " + newPlayer.Id);
 
             return null;
         }
@@ -68,16 +60,16 @@ namespace dotnetKole
             var jsonData = System.IO.File.ReadAllText(dataFilePath);
             PlayersList playerList = JsonConvert.DeserializeObject<PlayersList>(jsonData);
             PlayersList removePlayer = new PlayersList(playerList.players.Length - 1);
-            Console.WriteLine(playerList.players);
+            Console.WriteLine(playerList.players.Length);
+            Console.WriteLine(removePlayer.players.Length);
             
             bool playerDeleted = false;
-            for(int i = 0;i<removePlayer.players.Length;i++)
+            for(int i = 0; i < removePlayer.players.Length; i++)
             {
                 if(playerList.players[i].Id == id || playerDeleted)
                 {
-                    removePlayer.players[i] = playersList.player[i++];
+                    removePlayer.players[i] = playerList.players[i++];
                     playerDeleted = true;
-                    break;
                 }
                 else
                 {
@@ -86,9 +78,14 @@ namespace dotnetKole
             }
             if(playerDeleted)
             {
-                var json = JsonConvert.SerializeObject(addPlayer,Formatting.Indented);
+                var json = JsonConvert.SerializeObject(removePlayer, Formatting.Indented);
 
                 System.IO.File.WriteAllText(dataFilePath,json);
+                Console.WriteLine("Deleted: " + id);
+            }
+            else
+            {
+                Console.WriteLine("Player not found: " + id);
             }
             
 
