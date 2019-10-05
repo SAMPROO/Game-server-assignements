@@ -67,12 +67,30 @@ namespace dotnetKole
         {
             var jsonData = System.IO.File.ReadAllText(dataFilePath);
             PlayersList playerList = JsonConvert.DeserializeObject<PlayersList>(jsonData);
-
+            PlayersList removePlayer = new PlayersList(playerList.players.Length - 1);
             Console.WriteLine(playerList.players);
+            
+            bool playerDeleted = false;
+            for(int i = 0;i<removePlayer.players.Length;i++)
+            {
+                if(playerList.players[i].Id == id || playerDeleted)
+                {
+                    removePlayer.players[i] = playersList.player[i++];
+                    playerDeleted = true;
+                    break;
+                }
+                else
+                {
+                    removePlayer.players[i] = playerList.players[i];
+                }
+            }
+            if(playerDeleted)
+            {
+                var json = JsonConvert.SerializeObject(addPlayer,Formatting.Indented);
 
-            JObject jo = JObject.Parse(jsonData);
-            jo.Property("ResponseType");
-
+                System.IO.File.WriteAllText(dataFilePath,json);
+            }
+            
 
             /*
             List<Player> listWithoutDeletedPlayer = new List<Player>();
