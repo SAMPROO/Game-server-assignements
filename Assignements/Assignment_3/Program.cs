@@ -4,6 +4,7 @@ namespace dotnetKole
 {
     class Program
     {
+        /*
         static void Main(string[] args)
         {
             FileRepository fr = new FileRepository();
@@ -19,5 +20,6 @@ namespace dotnetKole
             var getAllPlayers = fr.GetAll().Result;
             var modifyPlayer = fr.Modify(player.Id, modified).Result;
         }
+        */
     }
 }
