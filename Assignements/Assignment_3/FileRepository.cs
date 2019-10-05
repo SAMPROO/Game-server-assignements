@@ -1,6 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace dotnetKole
 {
@@ -8,10 +10,11 @@ namespace dotnetKole
     {
 
         String dataFilePath = "game-dev.txt";
-        //string json = Newtonsoft.Json.JsonConverter.SerializeObject(account, Formatting.Indented);
+        //string json = JsonConverter.SerializeObject(account, Formatting.Indented);
         //Console.WriteLine(json);
         Player[] players;
 
+        /*
         Player p = new Player
         {
             Id = new Guid(),
@@ -21,74 +24,90 @@ namespace dotnetKole
             IsBanned = true,
             CreationTime = new DateTime()
         };
-
+         */
         public Task<Player> Create(NewPlayer np)
         {
-                return Task.Run(()=>{
-                    Player newPlayer = new Player();
-                    Guid playerId = Guid.NewGuid();
+            Player newPlayer = new Player();
+            Guid playerId = Guid.NewGuid();
 
-                    newPlayer.Id = playerId;
-                    newPlayer.Name = np.Name;
-                    newPlayer.CreationTime = new DateTime();
-                    newPlayer.Level = 0;
-                    newPlayer.Score = 0;
-                    newPlayer.IsBanned = false;
+            newPlayer.Id = playerId;
+            newPlayer.Name = np.Name;
+            newPlayer.CreationTime = new DateTime();
+            newPlayer.Level = 0;
+            newPlayer.Score = 0;
+            newPlayer.IsBanned = false;
 
-                    // Read
-                    var jsonData = System.IO.File.ReadAllText(dataFilePath);
-                    // Convert to JSON
-                    var json = Newtonsoft.Json.JsonConvert.SerializeObject(new { player = newPlayer });
-                    // Write
-                    System.IO.File.WriteAllText(json, jsonData);
+            // Read
+            var jsonData = System.IO.File.ReadAllText(dataFilePath);
+            // Convert to JSON
+            var json = JsonConvert.SerializeObject(new { player = newPlayer }, Formatting.Indented);
+            Console.WriteLine(json);
+            // Write
+            System.IO.File.AppendAllText(dataFilePath, json);
 
-                    return newPlayer;
-            });
+            return null;
         }
 
         public Task<Player> Delete(Guid id)
         {
-            return Task.Run(()=>{
-                var jsonData = System.IO.File.ReadAllText(dataFilePath);
-                PlayersList playerList = Newtonsoft.Json.JsonConvert.DeserializeObject<PlayersList>(jsonData);
+            var jsonData = System.IO.File.ReadAllText(dataFilePath);
+            Players playerList = JsonConvert.DeserializeObject<Players>(jsonData);
 
-                List<Player> listWithoutDeletedPlayer = new List<Player>();
+            var myJson =  JArray.Parse(jsonData);
+            myJson.Descendants()
+                .OfType<JProperty>()
+                .Where(attr => attr.Name.StartsWith("Id"))
+                .ToList();
+                .ForEach(attr => attr.Remove());
 
-                PlayersList newPlayerList = new PlayersList();
-                newPlayerList.players = new Players[playerList.players.Length - 1];
-                bool idFound = false;
+            JObject jo = JObject.Parse(jsonData);
+            jo.Property("ResponseType").Remove();
+            json = jo.ToString();
 
-                for (int i = 0; i < playerList.players.Length; i++)
+            Console.WriteLine(playerList);
+
+            /*
+            List<Player> listWithoutDeletedPlayer = new List<Player>();
+
+            PlayersList newPlayerList = new PlayersList();
+            newPlayerList.players = new Players[playerList.players.Length - 1];
+            bool idFound = false;
+
+            for (int i = 0; i < playerList.players.Length; i++)
+            {
+                if (playerList.players[i].Id != id && i != playerList.players.Length - 1)
                 {
-                    if (playerList.players[i].Id != id && i != playerList.players.Length - 1)
-                    {
-                        newPlayerList.players[i] = playerList.players[i];
-                    }
-                    else if (playerList.players[i].Id == id && i == playerList.players.Length - 1)
-                    {
-                        // If last index has same id, "delete"
-                        idFound = true;
-                        break;
-                    }
-                    else
-                    {
-                        // Id found, "delete".
-                        idFound = true;
-                        continue;
-                    }
+                    newPlayerList.players[i] = playerList.players[i];
                 }
-
-                if (idFound == true)
+                else if (playerList.players[i].Id == id && i == playerList.players.Length - 1)
                 {
-                    // New list to JSON and replace old JSON
-                    return null;
+                    // If last index has same id, "delete"
+                    Console.WriteLine("Id found, deleting..");
+                    idFound = true;
+                    break;
                 }
                 else
                 {
-                    // Id not found, do nothing
-                    Console.WriteLine("Id not found, player does not exist");
+                    // Id found, "delete".
+                    Console.WriteLine("Id found, deleting..");
+                    idFound = true;
+                    continue;
                 }
-            });
+            }
+
+            if (idFound == true)
+            {
+                // New list to JSON and replace old JSON
+                return null;
+            }
+            else
+            {
+                // Id not found, do nothing
+                Console.WriteLine("Id not found, player does not exist");
+            }
+             */
+        
+            return null;
         }
 
         public Task<Player> Get(Guid id)
@@ -122,23 +141,23 @@ namespace dotnetKole
 
         class PlayersList
         {
-            [Newtonsoft.Json.JsonProperty("player")]
+            [JsonProperty("player")]
             public Players[] players;
         }
 
         class Players
         {
-            [Newtonsoft.Json.JsonProperty("Id")]
+            [JsonProperty("Id")]
             public Guid Id;
-            [Newtonsoft.Json.JsonProperty("Name")]
+            [JsonProperty("Name")]
             public string name;
-            [Newtonsoft.Json.JsonProperty("Score")]
+            [JsonProperty("Score")]
             public int Score;
-            [Newtonsoft.Json.JsonProperty("Level")]
+            [JsonProperty("Level")]
             public int Level;
-            [Newtonsoft.Json.JsonProperty("IsBanned")]
+            [JsonProperty("IsBanned")]
             public bool IsBanned;
-            [Newtonsoft.Json.JsonProperty("CreationTime")]
+            [JsonProperty("CreationTime")]
             public DateTime CreationTime;
         }
     }

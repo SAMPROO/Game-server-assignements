@@ -1,0 +1,38 @@
+{
+  "player": {
+    "Id": "632f4958-10bb-4150-8bc8-c9dbce8a0c45",
+    "Name": "Pentti",
+    "Score": 0,
+    "Level": 0,
+    "IsBanned": false,
+    "CreationTime": "0001-01-01T00:00:00"
+  }
+}
+{
+  "player": {
+    "Id": "bf30e35d-4b0b-43bd-ae90-26056b54279a",
+    "Name": "Jaska",
+    "Score": 0,
+    "Level": 0,
+    "IsBanned": false,
+    "CreationTime": "0001-01-01T00:00:00"
+  }
+}{
+  "player": {
+    "Id": "902f641d-059f-4c27-a564-3234a6bdd483",
+    "Name": "Arnold Schwarzenegger",
+    "Score": 0,
+    "Level": 0,
+    "IsBanned": false,
+    "CreationTime": "0001-01-01T00:00:00"
+  }
+}{
+  "player": {
+    "Id": "0719e600-c537-460d-8c61-b640d8a2692e",
+    "Name": "Arnold Schwarzenegger",
+    "Score": 0,
+    "Level": 0,
+    "IsBanned": false,
+    "CreationTime": "0001-01-01T00:00:00"
+  }
+}
