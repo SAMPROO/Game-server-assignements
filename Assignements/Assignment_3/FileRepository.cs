@@ -9,143 +9,116 @@ namespace dotnetKole
     public class FileRepository : IRepository
     {
         String dataFilePath = "game-dev.txt";
-        //string json = JsonConverter.SerializeObject(account, Formatting.Indented);
-        //Console.WriteLine(json);
-        Player[] players;
-
+        
         public Task<Player> Create(NewPlayer np)
         {
-            Player newPlayer = new Player();
-            Guid playerId = Guid.NewGuid();
+            return Task.Run(()=>{
+                Player newPlayer = new Player();
+                Guid playerId = Guid.NewGuid();
 
-            newPlayer.Id = playerId;
-            newPlayer.Name = np.Name;
-            newPlayer.CreationTime = new DateTime();
-            newPlayer.Level = 0;
-            newPlayer.Score = 0;
-            newPlayer.IsBanned = false;
+                newPlayer.Id = playerId;
+                newPlayer.Name = np.Name;
+                newPlayer.CreationTime = new DateTime();
+                newPlayer.Level = 0;
+                newPlayer.Score = 0;
+                newPlayer.IsBanned = false;
 
-            string jsonData = System.IO.File.ReadAllText(dataFilePath);
+                string jsonData = System.IO.File.ReadAllText(dataFilePath);
 
-            PlayersList players = JsonConvert.DeserializeObject<PlayersList>(jsonData);
+                PlayersList players = JsonConvert.DeserializeObject<PlayersList>(jsonData);
 
-            PlayersList addPlayer;
+                PlayersList addPlayer;
 
-            if (players != null)
-            {
-                addPlayer = new PlayersList(players.players.Length + 1);
-
-                for(int i = 0; i < players.players.Length; i++)
+                if (players != null)
                 {
-                    addPlayer.players[i] = players.players[i];
+                    addPlayer = new PlayersList(players.players.Length + 1);
+
+                    for(int i = 0; i < players.players.Length; i++)
+                    {
+                        addPlayer.players[i] = players.players[i];
+                    }
+                    addPlayer.players[players.players.Length] = newPlayer;
                 }
-                addPlayer.players[players.players.Length] = newPlayer;
-            }
-            else
-            {
-                addPlayer = new PlayersList(1);
-                addPlayer.players[0] = newPlayer;
-            }
+                else
+                {
+                    addPlayer = new PlayersList(1);
+                    addPlayer.players[0] = newPlayer;
+                }
 
-            var json = JsonConvert.SerializeObject(addPlayer,Formatting.Indented);
+                var json = JsonConvert.SerializeObject(addPlayer,Formatting.Indented);
 
-            System.IO.File.WriteAllText(dataFilePath,json);
-            Console.WriteLine("Player created: " + newPlayer.Id);
+                System.IO.File.WriteAllText(dataFilePath,json);
+                Console.WriteLine("(CREATE) Player created: " + newPlayer.Id);
 
-            return null;
+                return newPlayer;
+            });
         }
 
         public Task<Player> Delete(Guid id)
         {
-            var jsonData = System.IO.File.ReadAllText(dataFilePath);
-            PlayersList playerList = JsonConvert.DeserializeObject<PlayersList>(jsonData);
-            PlayersList removePlayer = new PlayersList(playerList.players.Length - 1);
-            Console.WriteLine(playerList.players.Length);
-            Console.WriteLine(removePlayer.players.Length);
-            
-            bool playerDeleted = false;
-            for(int i = 0; i < removePlayer.players.Length; i++)
-            {
-                if(playerList.players[i].Id == id || playerDeleted)
+            return Task.Run(()=>{
+
+                var jsonData = System.IO.File.ReadAllText(dataFilePath);
+                PlayersList playerList = JsonConvert.DeserializeObject<PlayersList>(jsonData);
+                PlayersList removePlayer = new PlayersList(playerList.players.Length - 1);
+                Player deletedPlayer = new Player();
+                
+                bool playerDeleted = false;
+                for(int i = 0; i < removePlayer.players.Length; i++)
                 {
-                    removePlayer.players[i] = playerList.players[i++];
+                    if(playerList.players[i].Id == id || playerDeleted)
+                    {
+                        removePlayer.players[i] = playerList.players[i + 1];
+                        if(playerDeleted == false)
+                        {
+                            deletedPlayer = playerList.players[i];
+                        }
+                        playerDeleted = true;
+                    }
+                    else
+                    {
+                        removePlayer.players[i] = playerList.players[i];
+                    }
+                }
+
+                if(playerList.players[playerList.players.Length - 1].Id == id)
+                {
                     playerDeleted = true;
                 }
-                else
+
+                if(playerDeleted)
                 {
-                    removePlayer.players[i] = playerList.players[i];
-                }
-            }
-            if(playerDeleted)
-            {
-                var json = JsonConvert.SerializeObject(removePlayer, Formatting.Indented);
+                    var json = JsonConvert.SerializeObject(removePlayer, Formatting.Indented);
 
-                System.IO.File.WriteAllText(dataFilePath,json);
-                Console.WriteLine("Deleted: " + id);
-            }
-            else
-            {
-                Console.WriteLine("Player not found: " + id);
-            }
-            
-
-            /*
-            List<Player> listWithoutDeletedPlayer = new List<Player>();
-
-            PlayersList newPlayerList = new PlayersList();
-            newPlayerList.players = new Players[playerList.players.Length - 1];
-            bool idFound = false;
-
-            for (int i = 0; i < playerList.players.Length; i++)
-            {
-                if (playerList.players[i].Id != id && i != playerList.players.Length - 1)
-                {
-                    newPlayerList.players[i] = playerList.players[i];
-                }
-                else if (playerList.players[i].Id == id && i == playerList.players.Length - 1)
-                {
-                    // If last index has same id, "delete"
-                    Console.WriteLine("Id found, deleting..");
-                    idFound = true;
-                    break;
+                    System.IO.File.WriteAllText(dataFilePath,json);
+                    Console.WriteLine("(DELETE) Deleted: " + id);
+                    return deletedPlayer;
                 }
                 else
                 {
-                    // Id found, "delete".
-                    Console.WriteLine("Id found, deleting..");
-                    idFound = true;
-                    continue;
+                    Console.WriteLine("(DELETE) Player not found: " + id);
+                    return null;
                 }
-            }
-
-            if (idFound == true)
-            {
-                // New list to JSON and replace old JSON
-                return null;
-            }
-            else
-            {
-                // Id not found, do nothing
-                Console.WriteLine("Id not found, player does not exist");
-            }
-             */
-        
-            return null;
+            });
         }
 
         public Task<Player> Get(Guid id)
         {
             return Task.Run(()=>{
-
                 
+                var jsonData = System.IO.File.ReadAllText(dataFilePath);
+                PlayersList playerList = JsonConvert.DeserializeObject<PlayersList>(jsonData);
 
-                foreach(var player in players)
+                foreach(var player in playerList.players)
                 {
                     if(player.Id == id)
                     {
+                        Console.WriteLine("(GET) Player found: " + id);
                         return player;
                     }
                 }
+                
+                Console.WriteLine("(GET) Player not found: " + id);
                 return null;
             });
         }
@@ -153,13 +126,40 @@ namespace dotnetKole
         public Task<Player[]> GetAll()
         {
             return Task.Run(()=>{
-                return players;
+                
+                var jsonData = System.IO.File.ReadAllText(dataFilePath);
+                PlayersList playerList = JsonConvert.DeserializeObject<PlayersList>(jsonData);
+
+                if (playerList == null)
+                {
+                    return null;
+                }
+
+                return playerList.players;
             });
         }
 
         public Task<Player> Modify(Guid id, ModifiedPlayer player)
         {
-            throw new NotImplementedException();
+            return Task.Run(()=>{
+                
+                PlayersList playersList = new PlayersList();
+                var players = GetAll().Result;
+
+                foreach (var p in players)
+                {
+                    if (p.Id == id)
+                    {
+                        p.Score = player.Score;
+
+                        playersList.players = players;
+                        var json = JsonConvert.SerializeObject(playersList, Formatting.Indented);
+                        System.IO.File.WriteAllText(dataFilePath, json);
+                        return p;
+                    }
+                }
+                return null;
+            });
         }
 
         public class PlayersList
