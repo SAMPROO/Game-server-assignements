@@ -8,23 +8,11 @@ namespace dotnetKole
 {
     public class FileRepository : IRepository
     {
-
         String dataFilePath = "game-dev.txt";
         //string json = JsonConverter.SerializeObject(account, Formatting.Indented);
         //Console.WriteLine(json);
         Player[] players;
 
-        /*
-        Player p = new Player
-        {
-            Id = new Guid(),
-            Name = "",
-            Score = 10,
-            Level = 10,
-            IsBanned = true,
-            CreationTime = new DateTime()
-        };
-         */
         public Task<Player> Create(NewPlayer np)
         {
             Player newPlayer = new Player();
@@ -36,14 +24,41 @@ namespace dotnetKole
             newPlayer.Level = 0;
             newPlayer.Score = 0;
             newPlayer.IsBanned = false;
-
+            
+            /* 
             // Read
             var jsonData = System.IO.File.ReadAllText(dataFilePath);
             // Convert to JSON
             var json = JsonConvert.SerializeObject(new { player = newPlayer }, Formatting.Indented);
-            Console.WriteLine(json);
             // Write
             System.IO.File.AppendAllText(dataFilePath, json);
+            */
+
+            string jsonData = System.IO.File.ReadAllText(dataFilePath);
+
+            PlayersList players = JsonConvert.DeserializeObject<PlayersList>(jsonData);
+
+            PlayersList addPlayer;
+
+            if (players != null)
+            {
+                addPlayer = new PlayersList(players.players.Length + 1);
+
+                for(int i = 0; i < players.players.Length; i++)
+                {
+                    addPlayer.players[i] = players.players[i];
+                }
+                addPlayer.players[players.players.Length] = newPlayer;
+            }
+            else
+            {
+                addPlayer = new PlayersList(1);
+                addPlayer.players[0] = newPlayer;
+            }
+
+            var json = JsonConvert.SerializeObject(addPlayer,Formatting.Indented);
+
+            System.IO.File.WriteAllText(dataFilePath,json);
 
             return null;
         }
@@ -51,20 +66,13 @@ namespace dotnetKole
         public Task<Player> Delete(Guid id)
         {
             var jsonData = System.IO.File.ReadAllText(dataFilePath);
-            Players playerList = JsonConvert.DeserializeObject<Players>(jsonData);
+            PlayersList playerList = JsonConvert.DeserializeObject<PlayersList>(jsonData);
 
-            var myJson =  JArray.Parse(jsonData);
-            myJson.Descendants()
-                .OfType<JProperty>()
-                .Where(attr => attr.Name.StartsWith("Id"))
-                .ToList();
-                .ForEach(attr => attr.Remove());
+            Console.WriteLine(playerList.players);
 
             JObject jo = JObject.Parse(jsonData);
-            jo.Property("ResponseType").Remove();
-            json = jo.ToString();
+            jo.Property("ResponseType");
 
-            Console.WriteLine(playerList);
 
             /*
             List<Player> listWithoutDeletedPlayer = new List<Player>();
@@ -139,26 +147,20 @@ namespace dotnetKole
             throw new NotImplementedException();
         }
 
-        class PlayersList
+        public class PlayersList
         {
-            [JsonProperty("player")]
-            public Players[] players;
-        }
+            public PlayersList()
+            {
 
-        class Players
-        {
-            [JsonProperty("Id")]
-            public Guid Id;
-            [JsonProperty("Name")]
-            public string name;
-            [JsonProperty("Score")]
-            public int Score;
-            [JsonProperty("Level")]
-            public int Level;
-            [JsonProperty("IsBanned")]
-            public bool IsBanned;
-            [JsonProperty("CreationTime")]
-            public DateTime CreationTime;
+            }
+
+            public PlayersList(int i)
+            {
+                players = new Player[i];
+            }
+
+            [JsonProperty("players")]
+            public Player[] players;
         }
     }
 }
