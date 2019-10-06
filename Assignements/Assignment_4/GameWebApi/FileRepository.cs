@@ -25,7 +25,7 @@ namespace dotnetKole
             }
             else
             {
-                dataFilePath "prod-dev.txt";
+                dataFilePath = "prod-dev.txt";
             }
         }
         
@@ -138,7 +138,7 @@ namespace dotnetKole
                 }
                 
                 Console.WriteLine("(GET) Player not found: " + id);
-                return null;
+                throw new NotFoundException("Player level is too low");
             });
         }
 

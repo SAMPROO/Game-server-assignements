@@ -3349,7 +3349,7 @@
     ],
     "CSharpLanguageVersion": 800
   },
-  "RootNamespace": "GameWebApi",
+  "RootNamespace": null,
   "Documents": [],
   "SerializationFormat": "0.2"
 }

@@ -6,9 +6,17 @@ public class NotFoundException : Exception
     public int StatusCode { get; set; }
     public string ContentType { get; set; } = @"text/plain";
 
+    public NotFoundException()
+    {
+        
+    }
     public NotFoundException (int statusCode)
     {
         this.StatusCode = statusCode;
+    }
+
+    public NotFoundException (string message) : base(message)
+    {
     }
 
     public NotFoundException (int statusCode, string message) : base(message)

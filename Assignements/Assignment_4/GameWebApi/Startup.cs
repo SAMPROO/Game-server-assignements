@@ -35,10 +35,12 @@ namespace dotnetKole
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseMiddleware<ErrorHandlingMiddleware>();
                 FileRepository fileRepository = new FileRepository(true);
             }
             else
             {
+                app.UseMiddleware<ErrorHandlingMiddleware>();
                 FileRepository fileRepository = new FileRepository(false);
             }
 

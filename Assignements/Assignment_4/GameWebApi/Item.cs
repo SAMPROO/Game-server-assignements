@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using static CustomValidation;
 
 namespace dotnetKole
 {
@@ -15,7 +14,7 @@ namespace dotnetKole
         [Required]
         public ItemType ItemType { get; set; }
 
-        [PastDate]
+        [CustomValidation.PastDate]
         public DateTime CreationDate{ get; set; }
     }
 }

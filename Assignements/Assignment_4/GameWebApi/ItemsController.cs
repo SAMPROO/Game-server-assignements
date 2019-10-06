@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using System;
 using System.ComponentModel.DataAnnotations;
-using static CustomValidation;
 using System.Diagnostics.Contracts;
 
 namespace dotnetKole
@@ -20,6 +19,7 @@ namespace dotnetKole
         {
             try
             {
+                _repository.Get(playerId);
                 ValidatePlayerLevelTooLowForSwordException(playerId, item);
             }
             catch (PlayerLevelTooLowForSwordException e)
