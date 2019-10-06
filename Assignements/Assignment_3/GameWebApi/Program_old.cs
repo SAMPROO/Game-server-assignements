@@ -2,7 +2,7 @@
 
 namespace dotnetKole
 {
-    class Program
+    class Program_old
     {
         /*
         static void Main(string[] args)
