@@ -5,5 +5,7 @@ namespace dotnetKole
         Weapon,
         Relic,
         HealthKit,
+
+        Sword,
     }
 }

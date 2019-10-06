@@ -9,6 +9,25 @@ namespace dotnetKole
     public class FileRepository : IRepository
     {
         String dataFilePath = "game-dev.txt";
+        String dataFilePathProd = "prod-dev.txt";
+
+        public FileRepository()
+        {
+            dataFilePath = "game-dev.txt";
+        }
+
+        public FileRepository(bool dev)
+        {
+            if(dev)
+            {
+                dataFilePath = "game-dev.txt";
+
+            }
+            else
+            {
+                dataFilePath "prod-dev.txt";
+            }
+        }
         
         public Task<Player> Create(NewPlayer np)
         {
@@ -263,7 +282,7 @@ namespace dotnetKole
                         {
                             if (player.Items[index].Id == item.Id)
                             {   
-                                player.Items[index].Price = modifiedItem.Price;
+                                player.Items[index].Level = modifiedItem.Price;
                                 player.Items[index].ItemType = modifiedItem.ItemType;
                                 return player.Items[index];
                             }

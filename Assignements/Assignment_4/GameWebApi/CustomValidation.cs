@@ -1,20 +1,46 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-public class CustomValidation
+namespace dotnetKole
 {
-    public sealed class PastDateAttribute : ValidationAttribute
+    public class CustomValidation
     {
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        public sealed class PastDateAttribute : ValidationAttribute
         {
-            var currentDateTime = new DateTime();
-
-            if ((DateTime)value > currentDateTime)
+            protected override ValidationResult IsValid(object value, ValidationContext validationContext)
             {
-                return new ValidationResult($"Date cannot be newer than the current date {value}.");
+                var currentDateTime = new DateTime();
+
+                if ((DateTime)value > currentDateTime)
+                {
+                    return new ValidationResult($"Date cannot be newer than the current date {value}.");
+                }
+
+                return ValidationResult.Success;
+            }
+        }
+
+        public class SwordMinLevelManager : ValidationAttribute
+        {
+            private Player _player { get; set; }
+            private Item _item { get; set; }
+
+
+            public SwordMinLevelManager(Player player, Item item) 
+            {
+                _player = player;
+                _item = item;
             }
 
-            return ValidationResult.Success;
+            public SwordMinLevelManager IfSwordCheckPlayerLevel() 
+            {
+                if (_player.Level < 3 && _item.ItemType == ItemType.Sword) 
+                {
+                    throw new ArgumentException(string.Format("Player: {0} level {1} is too low. Sword level {2}", _player.Id, _player.Level, _item.Level));
+                }
+
+                return this;
+            }
         }
     }
 }

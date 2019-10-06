@@ -1,5 +1,8 @@
 using System.Threading.Tasks;
 using System;
+using System.ComponentModel.DataAnnotations;
+using static CustomValidation;
+using System.Diagnostics.Contracts;
 
 namespace dotnetKole
 {
@@ -12,9 +15,25 @@ namespace dotnetKole
             _repository = i;
         }
 
+        //[SwordMinLevel]
         Task<Item> CreateItem(Guid playerId, Item item)
         {
+            try
+            {
+                ValidatePlayerLevelTooLowForSwordException(playerId, item);
+            }
+            catch (PlayerLevelTooLowForSwordException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
             return _repository.CreateItem(playerId, item);
+        }
+
+        private void ValidatePlayerLevelTooLowForSwordException(Guid playerId, Item item)
+        {
+            if (_repository.Get(playerId).Result.Level < 3 && item.ItemType == ItemType.Sword)
+                throw new PlayerLevelTooLowForSwordException("Player level is too low");
         }
         Task<Item> GetItem(Guid playerId, Guid itemId)
         {

@@ -35,6 +35,11 @@ namespace dotnetKole
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                FileRepository fileRepository = new FileRepository(true);
+            }
+            else
+            {
+                FileRepository fileRepository = new FileRepository(false);
             }
 
             app.UseRouting();

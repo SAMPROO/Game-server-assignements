@@ -1,7 +1,5 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-
-using System.ComponentModel.DataAnnotations;  
 using static CustomValidation;
 
 namespace dotnetKole
