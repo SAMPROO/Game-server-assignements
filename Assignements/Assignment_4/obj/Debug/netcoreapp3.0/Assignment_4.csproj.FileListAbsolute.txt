@@ -1,3 +1,0 @@
-C:\GitHub\Game-server-assignements\Assignements\Assignment_4\obj\Debug\netcoreapp3.0\Assignment_4.csprojAssemblyReference.cache
-C:\GitHub\Game-server-assignements\Assignements\Assignment_4\obj\Debug\netcoreapp3.0\Assignment_4.AssemblyInfoInputs.cache
-C:\GitHub\Game-server-assignements\Assignements\Assignment_4\obj\Debug\netcoreapp3.0\Assignment_4.AssemblyInfo.cs
