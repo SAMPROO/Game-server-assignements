@@ -10,9 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using dotnetKole;
 
-namespace GameWebApi
+namespace dotnetKole
 {
     public class Startup
     {
@@ -36,15 +35,7 @@ namespace GameWebApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.ErroHandlingMiddleware();
             }
-            else
-            {
-                app.ErroHandlingMiddleware();
-                app.UseExceptionHandler();
-            }
-            
-            app.UseHttpsRedirection();
 
             app.UseRouting();
 
