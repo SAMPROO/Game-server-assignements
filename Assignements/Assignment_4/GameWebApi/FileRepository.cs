@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.Hosting;
 
 namespace dotnetKole
 {
@@ -10,7 +11,17 @@ namespace dotnetKole
     {
         String dataFilePath = "game-dev.txt";
         String dataFilePathProd = "prod-dev.txt";
-
+        public void SetEnvironment(IHostingEnvironment env)
+        {
+            if(env.IsDevelopment())
+            {
+                dataFilePath = "game-dev.txt";
+            }
+            else
+            {
+                dataFilePath = "prod-dev.txt";
+            }
+        }
         public FileRepository()
         {
             dataFilePath = "game-dev.txt";
@@ -37,7 +48,7 @@ namespace dotnetKole
 
                 newPlayer.Id = playerId;
                 newPlayer.Name = np.Name;
-                newPlayer.CreationTime = new DateTime();
+                newPlayer.CreationTime = DateTime.Now;
                 newPlayer.Level = 0;
                 newPlayer.Score = 0;
                 newPlayer.IsBanned = false;
@@ -181,7 +192,7 @@ namespace dotnetKole
             });
         }
 
-        public Task<Item> CreateItem(Guid playerId, Item item)
+        public Task<NewItem> CreateItem(Guid playerId, NewItem item)
         {
             return Task.Run(()=>{
                 
@@ -192,7 +203,14 @@ namespace dotnetKole
                 {
                     if (player.Id == playerId)
                     {
-                        player.Items.Add(item);
+                        Item createdItem = new Item();
+                        createdItem.ItemType = item.ItemType;
+                        createdItem.Price = item.Price;
+                        createdItem.Id = Guid.NewGuid();
+                        player.Items.Add(createdItem);
+                        var json = JsonConvert.SerializeObject(playerList,Formatting.Indented);
+                        System.IO.File.WriteAllText(dataFilePath,json);
+                        
                         return item;
                     }
                 }
@@ -200,7 +218,7 @@ namespace dotnetKole
             });
         }
 
-        public Task<Item> DeleteItem(Guid playerId, Item item)
+        public Task<Item> DeleteItem(Guid playerId, Guid itemId)
         {
             return Task.Run(()=>{
                 
@@ -213,7 +231,7 @@ namespace dotnetKole
                     {
                         for (int index = 0; index < player.Items.Count; index++)
                         {
-                            if (player.Items[index].Id == item.Id)
+                            if (player.Items[index].Id == itemId)
                             {   
                                 player.Items.RemoveAt(index);
                                 return player.Items[index];

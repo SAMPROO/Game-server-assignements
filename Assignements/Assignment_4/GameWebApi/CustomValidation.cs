@@ -9,7 +9,7 @@ namespace dotnetKole
         {
             protected override ValidationResult IsValid(object value, ValidationContext validationContext)
             {
-                var currentDateTime = new DateTime();
+                var currentDateTime = DateTime.Now;
 
                 if ((DateTime)value > currentDateTime)
                 {

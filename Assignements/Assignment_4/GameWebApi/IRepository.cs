@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-
+using Microsoft.AspNetCore.Hosting;
 namespace dotnetKole 
 {
     public interface IRepository
@@ -11,10 +11,13 @@ namespace dotnetKole
         Task<Player> Modify(Guid id, ModifiedPlayer player);
         Task<Player> Delete(Guid id);
 
-        Task<Item> CreateItem(Guid playerId, Item item);
+        Task<NewItem> CreateItem(Guid playerId, NewItem item);
         Task<Item> GetItem(Guid playerId, Guid itemId);
         Task<Item[]> GetAllItems(Guid playerId);
         Task<Item> UpdateItem(Guid playerId, Item item, ModifiedItem modifiedItem);
-        Task<Item> DeleteItem(Guid playerId, Item item);
+        Task<Item> DeleteItem(Guid playerId, Guid itemId);
+
+        void SetEnvironment(IHostingEnvironment env);
+        
 }
 }

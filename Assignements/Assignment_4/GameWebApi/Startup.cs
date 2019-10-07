@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+
 using Microsoft.Extensions.Logging;
 
 namespace dotnetKole
@@ -26,23 +26,24 @@ namespace dotnetKole
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddSingleton(typeof(IRepository), typeof(FileRepository));
+            services.AddSingleton<IRepository, FileRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
+                Console.WriteLine("Environment In Development");
                 app.UseDeveloperExceptionPage();
-                app.UseMiddleware<ErrorHandlingMiddleware>();
-                FileRepository fileRepository = new FileRepository(true);
             }
             else
             {
-                app.UseMiddleware<ErrorHandlingMiddleware>();
-                FileRepository fileRepository = new FileRepository(false);
+                Console.WriteLine("Environment In Production");
             }
+            app.UseMiddleware<ErrorHandlingMiddleware>();
+
+            app.ApplicationServices.GetService<IRepository>().SetEnvironment(env);
 
             app.UseRouting();
 

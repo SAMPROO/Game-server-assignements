@@ -1,8 +1,9 @@
+using System.ComponentModel.DataAnnotations;
 namespace dotnetKole
 {
     public class NewPlayer
     {
-        public string Name { get; set; }
+        [Required]public string Name { get; set; }
     }
 }
     

@@ -2,9 +2,12 @@ using System.Threading.Tasks;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
+using Microsoft.AspNetCore.Mvc;
 
 namespace dotnetKole
 {
+    [Route("api/players/{playerId}/items")]
+    [ApiController]
     public class ItemsController
     {
         private IRepository _repository;
@@ -13,43 +16,51 @@ namespace dotnetKole
         {
             _repository = i;
         }
-
+     
+        
         //[SwordMinLevel]
-        Task<Item> CreateItem(Guid playerId, Item item)
+        [HttpPost]
+        [PlayerLevelTooLowForSwordExceptionFilter]
+        public Task<NewItem> CreateItem(Guid playerId,[FromBody] NewItem item)
         {
-            try
+            Console.WriteLine(item.Price+" "+playerId);
+            Player player = _repository.Get(playerId).Result;
+            if(player.Level < 3 && item.ItemType == ItemType.Sword)
             {
-                _repository.Get(playerId);
-                ValidatePlayerLevelTooLowForSwordException(playerId, item);
+                throw new PlayerLevelTooLowForSwordException();
             }
-            catch (PlayerLevelTooLowForSwordException e)
-            {
-                Console.WriteLine(e.Message);
-            }
+            //ValidatePlayerLevelTooLowForSwordException(playerId, item);
+            return _repository.CreateItem(playerId, item); 
+                
+        }      
+      
 
-            return _repository.CreateItem(playerId, item);
-        }
-
-        private void ValidatePlayerLevelTooLowForSwordException(Guid playerId, Item item)
+        private void ValidatePlayerLevelTooLowForSwordException(Guid playerId, NewItem item)
         {
             if (_repository.Get(playerId).Result.Level < 3 && item.ItemType == ItemType.Sword)
-                throw new PlayerLevelTooLowForSwordException("Player level is too low");
+                throw new PlayerLevelTooLowForSwordException();
         }
-        Task<Item> GetItem(Guid playerId, Guid itemId)
+        [HttpGet("{itemId}")]
+        public Task<Item> GetItem(Guid playerId, Guid itemId)
         {
             return _repository.GetItem(playerId, itemId);
         }
-        Task<Item[]> GetAllItems(Guid playerId)
+        [HttpGet]
+        public Task<Item[]> GetAllItems(Guid playerId)
         {
+            Console.WriteLine("Getting items");
             return _repository.GetAllItems(playerId);
         }
-        Task<Item> UpdateItem(Guid playerId, Item item, ModifiedItem modifiedItem)
+
+        //public Task<Item> UpdateItem(Guid playerId, Item item, ModifiedItem modifiedItem)
+        //{
+        //    return _repository.UpdateItem(playerId, item, modifiedItem);
+        //}
+        [HttpDelete("{itemId}")]
+        public Task<Item> DeleteItem(Guid playerId, Guid itemId)
         {
-            return _repository.UpdateItem(playerId, item, modifiedItem);
+            return _repository.DeleteItem(playerId, itemId);
         }
-        Task<Item> DeleteItem(Guid playerId, Item item)
-        {
-            return _repository.DeleteItem(playerId, item);
-        }
+        
     }
 }
