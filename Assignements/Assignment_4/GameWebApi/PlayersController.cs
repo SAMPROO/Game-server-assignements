@@ -23,7 +23,7 @@ namespace dotnetKole
         [HttpGet]
         public Task<Player[]> GetAll()
         {
-            throw new NotFoundException();
+            //throw new NotFoundException();
             return _repository.GetAll();
         }
         [HttpPost]
