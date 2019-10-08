@@ -23,6 +23,12 @@ namespace dotnetKole
             return _repository.Get(id);
           
         }
+        [Route("{id}/updatename/{name}")] // teht 6 
+        [HttpPut]
+        public Task<Player> UpdateName(Guid id, string name)
+        {
+            return _repository.UpdateNameDirect(id,name);
+        }
         [HttpGet("{name}")]
         public Task<Player> Get(string name) // Mongoton etsi nimellää toteutus
         {
