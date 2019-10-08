@@ -144,7 +144,6 @@ namespace dotnetKole
         {
             FilterDefinition<Player> filter = Builders<Player>.Filter.Eq(p => p.Id, playerId);
             Player modifiedPlayer = Get(playerId).Result;
-            Item storeItem = null;
 
             foreach (var i in modifiedPlayer.Items)
             {
@@ -152,29 +151,35 @@ namespace dotnetKole
                 {
                     i.Price = modifiedItem.Price;
                     i.ItemType = modifiedItem.ItemType;
-                    storeItem = i;
+                    await _collection.ReplaceOneAsync(filter, modifiedPlayer);
+                    return i;
                 }
             }
 
             await _collection.ReplaceOneAsync(filter, modifiedPlayer);
-            return storeItem;
+            return null;
         }
 
-        public async Task<Item> DeleteItem(Guid playerId, Guid item)
+        public async Task<Item> DeleteItem(Guid playerId, Guid id)
         {
             FilterDefinition<Player> filter = Builders<Player>.Filter.Eq(p => p.Id, playerId);
             Player modifiedPlayer = Get(playerId).Result;
+            Item item = null;
 
-            for (int i = 0; i < modifiedPlayer.Items.Count - 1; i++)
+            for (int i = 0; i < modifiedPlayer.Items.Count; i++)
             {
-                if (modifiedPlayer.Items[i].Id == item)
+                if (modifiedPlayer.Items[i].Id == id)
                 {
+
+                    item = modifiedPlayer.Items[i];
                     modifiedPlayer.Items.RemoveAt(i);
-                    return modifiedPlayer.Items[i];
+                    await _collection.ReplaceOneAsync(filter, modifiedPlayer);
+                    return item;
                 }
             }
+
             await _collection.ReplaceOneAsync(filter, modifiedPlayer);
-            return null;
+            return item;
         }
         
     }

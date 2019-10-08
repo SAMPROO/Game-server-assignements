@@ -33,7 +33,6 @@ namespace dotnetKole
             return _repository.CreateItem(playerId, item); 
                 
         }      
-      
 
         private void ValidatePlayerLevelTooLowForSwordException(Guid playerId, NewItem item)
         {
@@ -52,11 +51,12 @@ namespace dotnetKole
             return _repository.GetAllItems(playerId);
         }
 
-        [HttpPut]
-        public Task<Item> UpdateItem(Guid playerId, Guid item, [FromBody]ModifiedItem modifiedItem)
+        [HttpPut("{itemId}")]
+        public Task<Item> UpdateItem(Guid playerId, Guid itemId, [FromBody]ModifiedItem modifiedItem)
         {
-            return _repository.UpdateItem(playerId, item, modifiedItem);
+            return _repository.UpdateItem(playerId, itemId, modifiedItem);
         }
+
         [HttpDelete("{itemId}")]
         public Task<Item> DeleteItem(Guid playerId, Guid itemId)
         {
