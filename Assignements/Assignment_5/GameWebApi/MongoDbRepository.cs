@@ -38,7 +38,6 @@ namespace dotnetKole
 
         public async Task<Player[]> GetAll()
         {
-            Console.WriteLine("MONGO CALLED----------------------------");
             var players = await _collection.Find(new BsonDocument()).ToListAsync();
             return players.ToArray();    
     

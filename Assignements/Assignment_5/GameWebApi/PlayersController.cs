@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -25,7 +26,6 @@ namespace dotnetKole
         [HttpGet("{name}")]
         public Task<Player> Get(string name)
         {
-            Console.WriteLine("heil afeasfasf "+name);
             return Task.Run( () => {
                     var players = _repository.GetAll().Result;
                     foreach(var player in players)
@@ -62,6 +62,22 @@ namespace dotnetKole
                 return _repository.GetAll();
             }
             
+        }
+        [Route("topten")]
+        [HttpGet]
+        public Task<Player[]> GetAllTopTen() // tehtava 10
+        {
+                return Task.Run( () => {
+                    var players = _repository.GetAll().Result;
+                    var playersTopTen = new List<Player>();
+                    foreach(var player in players)
+                    {   
+                        if(playersTopTen.Count<10)
+                            playersTopTen.Add(player);
+                    }
+                    var playersTopTenSorted = playersTopTen.OrderByDescending(x => x.Score);
+                return playersTopTenSorted.ToArray();
+                } );
         }
         /*
         public Task<Player[]> GetAllMin([FromQuery]int scoreMin)
