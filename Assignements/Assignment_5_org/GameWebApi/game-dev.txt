@@ -1,0 +1,123 @@
+{
+  "players": [
+    {
+      "Id": "ea7413f2-8bb2-4e05-8981-50f596c3aff8",
+      "Name": "Arnold Schwarzenegger",
+      "Score": 1000,
+      "Level": 0,
+      "IsBanned": false,
+      "CreationTime": "0001-01-01T00:00:00",
+      "Items": []
+    },
+    {
+      "Id": "a68e037b-1178-42f9-a476-3c2389c0b215",
+      "Name": "Arnold Schwarzenegger",
+      "Score": 1000,
+      "Level": 0,
+      "IsBanned": false,
+      "CreationTime": "0001-01-01T00:00:00",
+      "Items": [
+        {
+          "Id": "0a4d638e-af5e-4e69-a213-18be7e115e39",
+          "Level": 0,
+          "Price": 19,
+          "ItemType": 2,
+          "CreationDate": "0001-01-01T00:00:00"
+        }
+      ]
+    },
+    {
+      "Id": "0e711298-14b0-456f-977c-d29a5354e1f5",
+      "Name": "Arnold Schwarzenegger",
+      "Score": 1000,
+      "Level": 0,
+      "IsBanned": false,
+      "CreationTime": "0001-01-01T00:00:00",
+      "Items": []
+    },
+    {
+      "Id": "3f1a4606-bc55-4328-b0a2-59b72b3fd306",
+      "Name": "Arnold Schwarzenegger",
+      "Score": 1000,
+      "Level": 0,
+      "IsBanned": false,
+      "CreationTime": "0001-01-01T00:00:00",
+      "Items": []
+    },
+    {
+      "Id": "d4ed29e3-0945-49f3-beb0-3024df7242e3",
+      "Name": "Keijo",
+      "Score": 0,
+      "Level": 0,
+      "IsBanned": false,
+      "CreationTime": "0001-01-01T00:00:00",
+      "Items": []
+    },
+    {
+      "Id": "be69020c-ba76-4db1-8e96-62d578e2ba48",
+      "Name": "Keijo2",
+      "Score": 0,
+      "Level": 0,
+      "IsBanned": false,
+      "CreationTime": "2019-10-07T16:36:51.0474971+03:00",
+      "Items": [
+        {
+          "Id": "00000000-0000-0000-0000-000000000000",
+          "Level": 0,
+          "Price": 99,
+          "ItemType": 3,
+          "CreationDate": "0001-01-01T00:00:00"
+        },
+        {
+          "Id": "00000000-0000-0000-0000-000000000000",
+          "Level": 0,
+          "Price": 99,
+          "ItemType": 3,
+          "CreationDate": "0001-01-01T00:00:00"
+        },
+        {
+          "Id": "be8fcf6e-3454-4045-9cfa-116ef6f478fd",
+          "Level": 0,
+          "Price": 99,
+          "ItemType": 3,
+          "CreationDate": "0001-01-01T00:00:00"
+        },
+        {
+          "Id": "e6849c60-7986-4830-904b-932686cedea1",
+          "Level": 0,
+          "Price": 94,
+          "ItemType": 3,
+          "CreationDate": "0001-01-01T00:00:00"
+        },
+        {
+          "Id": "bc610849-3940-4d6a-ab22-cf717dc51c7b",
+          "Level": 0,
+          "Price": 91,
+          "ItemType": 2,
+          "CreationDate": "0001-01-01T00:00:00"
+        },
+        {
+          "Id": "a2b79e2a-439b-4fc0-aca5-2057e7ddf51b",
+          "Level": 0,
+          "Price": 91,
+          "ItemType": 2,
+          "CreationDate": "0001-01-01T00:00:00"
+        },
+        {
+          "Id": "f59ab2e1-4a6b-4d93-833a-bb935404756b",
+          "Level": 0,
+          "Price": 91,
+          "ItemType": 2,
+          "CreationDate": "0001-01-01T00:00:00"
+        },
+        {
+          "Id": "1d306e53-342e-4dbe-8d0e-218633957379",
+          "Level": 0,
+          "Price": 91,
+          "ItemType": 2,
+          "CreationDate": "0001-01-01T00:00:00"
+        }
+      ]
+    }
+  ]
+}
