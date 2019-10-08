@@ -35,10 +35,16 @@ namespace dotnetKole
             await _collection.InsertOneAsync(newPlayer);
             return newPlayer;
         }
+        public async Task<Player> UpdateNameDirect(Guid id, string name)
+        {
+            var filter = Builders<Player>.Filter.Eq(i => i.Id, id);
+            var update = Builders<Player>.Update.Set(n => n.Name, name);
+            _collection.UpdateOneAsync(filter,update);
+            return _collection.Find(Builders<Player>.Filter.Eq(p => p.Id, id)).FirstAsync().Result;
+        }
 
         public async Task<Player[]> GetAll()
         {
-            Console.WriteLine("MONGO CALLED----------------------------");
             var players = await _collection.Find(new BsonDocument()).ToListAsync();
             return players.ToArray();    
     
@@ -131,7 +137,12 @@ namespace dotnetKole
             await _collection.ReplaceOneAsync(filter, player);
             return item;
         }
-
+        /*
+        public async Task<NewItem> AddItem(string playerName, NewItem item)
+        {
+            IMongoCollection<Item> playerItems = database.GetCollection<Item>("");
+        }
+        */
         public async Task<Item> GetItem(Guid playerId, Guid itemId)
         {
             Player player = Get(playerId).Result;

@@ -87,7 +87,14 @@ namespace dotnetKole
         {
             throw new NotImplementedException();
         }
-
+        public Task<Player[]> GetAllSortedByScoreDescending()
+        {
+            throw new NotImplementedException();
+        }
+        public Task<Player> UpdateNameDirect(Guid id, string name)
+        {
+            throw new NotImplementedException();
+        }
         public Task<Player> Delete(Guid id)
         {
             return Task.Run(()=>{

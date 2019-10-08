@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -22,10 +23,15 @@ namespace dotnetKole
             return _repository.Get(id);
           
         }
-        [HttpGet("{name}")]
-        public Task<Player> Get(string name)
+        [Route("{id}/updatename/{name}")] // teht 6 
+        [HttpPut]
+        public Task<Player> UpdateName(Guid id, string name)
         {
-            Console.WriteLine("heil afeasfasf "+name);
+            return _repository.UpdateNameDirect(id,name);
+        }
+        [HttpGet("{name}")]
+        public Task<Player> Get(string name) // Mongoton etsi nimellää toteutus
+        {
             return Task.Run( () => {
                     var players = _repository.GetAll().Result;
                     foreach(var player in players)
@@ -63,16 +69,51 @@ namespace dotnetKole
             }
             
         }
-        /*
-        public Task<Player[]> GetAllMin([FromQuery]int scoreMin)
+
+        [Route("withitem")]
+        [HttpGet]
+        public Task<Player[]> GetAll([FromQuery]ItemType type) // tehtava 4
         {
-            if(scoreMin>0)
-            {
-                Console.WriteLine("---------------------------All above "+scoreMin);
-            }
-            return _repository.GetAll();
+            return Task.Run( ()=> {
+                var players = _repository.GetAll().Result;
+                var playersWithItemType = new List<Player>();
+                foreach(var player in players)
+                {
+                    foreach(var item in player.Items)
+                    {
+                        if(item.ItemType == type)
+                        {
+                            playersWithItemType.Add(player);
+                            break;
+                        }
+                    }
+                }
+                return playersWithItemType.ToArray();
+
+            });
         }
+        [Route("topten")]
+        [HttpGet]
+        public Task<Player[]> GetAllTopTen() // tehtava 10
+        {
+            return Task.Run(()=>{
+                return _repository.GetAllSortedByScoreDescending(); // Mongo toteutus
+            });
+            /*
+                return Task.Run( () => {                            // Mongoton toteutus
+                    var players = _repository.GetAll().Result;
+                    var playersTopTen = new List<Player>();
+                    foreach(var player in players)
+                    {   
+                        if(playersTopTen.Count<10)
+                            playersTopTen.Add(player);
+                    }
+                    var playersTopTenSorted = playersTopTen.OrderByDescending(x => x.Score);
+                return playersTopTenSorted.ToArray();
+                } );
         */
+        }
+        
         [HttpPost]
         public Task<Player> Create([FromBody]NewPlayer player)
         {
