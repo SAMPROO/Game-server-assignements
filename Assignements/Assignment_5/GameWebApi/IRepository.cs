@@ -7,6 +7,7 @@ namespace dotnetKole
     {
         Task<Player> Get(Guid id);
         Task<Player[]> GetAll();
+        Task<Player[]> GetAllOver(int minLevel);
         Task<Player> Create(NewPlayer player);
         Task<Player> Modify(Guid id, ModifiedPlayer player);
         Task<Player> Delete(Guid id);

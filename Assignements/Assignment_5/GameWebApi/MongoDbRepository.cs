@@ -38,8 +38,23 @@ namespace dotnetKole
 
         public async Task<Player[]> GetAll()
         {
+            Console.WriteLine("MONGO CALLED----------------------------");
             var players = await _collection.Find(new BsonDocument()).ToListAsync();
-            return players.ToArray();
+            return players.ToArray();    
+    
+        }
+        public async Task<Player[]> GetAllOver(int minLevel)
+        {
+            var players = await _collection.Find(new BsonDocument()).ToListAsync();
+            var playersOverLevel = new List<Player>();
+            foreach(var player in players)
+            {
+                if(player.Level>minLevel)
+                {
+                    playersOverLevel.Add(player);
+                }
+            }
+            return playersOverLevel.ToArray();
         }
 
         public Task<Player> Get(Guid id)

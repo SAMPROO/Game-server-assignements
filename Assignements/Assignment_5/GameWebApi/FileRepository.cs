@@ -83,6 +83,10 @@ namespace dotnetKole
                 return newPlayer;
             });
         }
+        public Task<Player[]> GetAllOver(int minLevel)
+        {
+            throw new NotImplementedException();
+        }
 
         public Task<Player> Delete(Guid id)
         {
