@@ -144,11 +144,42 @@ namespace dotnetKole
         {
             return _repository.IncrementPlayerScore(id, increment);
         }
+
+        // Assignment 6 Ex.8 in ItemController
+
+        // Assignment 6 Ex.9
+        [Route("{playerId:guid}/Sell/{itemId:guid}")]
+        [HttpGet]
+        public Task<Player> Sell(Guid playerId, Guid itemId)
+        {
+            return Task.Run( () => {
+                var players = _repository.GetAll().Result;
+                int itemCost = 0;
+                foreach(var player in players)
+                {
+                    if(player.Id == playerId)
+                    {
+                        foreach (var item in player.Items)
+                        {
+                            if (item.Id == itemId)
+                            {
+                                Console.WriteLine("ASDASDASD");
+                                itemCost = item.Price;
+                                _repository.DeleteItem(playerId, itemId);
+                                _repository.IncrementPlayerScore(playerId, itemCost);
+                                return _repository.Get(playerId).Result;
+                            }
+                        }
+                    }
+                }
+                return null;
+                } );
+        }
         
         // Assignment 6 Ex.10
         [Route("topten")]
         [HttpGet]
-        public Task<Player[]> GetAllTopTen() // tehtava 10
+        public Task<Player[]> GetAllTopTen()
         {
             return Task.Run(()=>{
                 return _repository.GetAllSortedByScoreDescending(); // Mongo toteutus

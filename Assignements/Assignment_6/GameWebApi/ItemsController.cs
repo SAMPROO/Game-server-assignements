@@ -18,7 +18,7 @@ namespace dotnetKole
         }
      
         
-        //[SwordMinLevel]
+        // Assignment 6 Ex.8
         [HttpPost]
         [PlayerLevelTooLowForSwordExceptionFilter]
         public Task<NewItem> CreateItem(Guid playerId,[FromBody] NewItem item)
