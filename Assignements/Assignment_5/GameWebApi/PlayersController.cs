@@ -24,7 +24,7 @@ namespace dotnetKole
           
         }
         [HttpGet("{name}")]
-        public Task<Player> Get(string name)
+        public Task<Player> Get(string name) // Mongoton etsi nimellää toteutus
         {
             return Task.Run( () => {
                     var players = _repository.GetAll().Result;
@@ -63,11 +63,38 @@ namespace dotnetKole
             }
             
         }
+
+        [Route("withitem")]
+        [HttpGet]
+        public Task<Player[]> GetAll([FromQuery]ItemType type) // tehtava 4
+        {
+            return Task.Run( ()=> {
+                var players = _repository.GetAll().Result;
+                var playersWithItemType = new List<Player>();
+                foreach(var player in players)
+                {
+                    foreach(var item in player.Items)
+                    {
+                        if(item.ItemType == type)
+                        {
+                            playersWithItemType.Add(player);
+                            break;
+                        }
+                    }
+                }
+                return playersWithItemType.ToArray();
+
+            });
+        }
         [Route("topten")]
         [HttpGet]
         public Task<Player[]> GetAllTopTen() // tehtava 10
         {
-                return Task.Run( () => {
+            return Task.Run(()=>{
+                return _repository.GetAllSortedByScoreDescending(); // Mongo toteutus
+            });
+            /*
+                return Task.Run( () => {                            // Mongoton toteutus
                     var players = _repository.GetAll().Result;
                     var playersTopTen = new List<Player>();
                     foreach(var player in players)
@@ -78,17 +105,9 @@ namespace dotnetKole
                     var playersTopTenSorted = playersTopTen.OrderByDescending(x => x.Score);
                 return playersTopTenSorted.ToArray();
                 } );
-        }
-        /*
-        public Task<Player[]> GetAllMin([FromQuery]int scoreMin)
-        {
-            if(scoreMin>0)
-            {
-                Console.WriteLine("---------------------------All above "+scoreMin);
-            }
-            return _repository.GetAll();
-        }
         */
+        }
+        
         [HttpPost]
         public Task<Player> Create([FromBody]NewPlayer player)
         {

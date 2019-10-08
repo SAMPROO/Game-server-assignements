@@ -130,7 +130,12 @@ namespace dotnetKole
             await _collection.ReplaceOneAsync(filter, player);
             return item;
         }
-
+        /*
+        public async Task<NewItem> AddItem(string playerName, NewItem item)
+        {
+            IMongoCollection<Item> playerItems = database.GetCollection<Item>("");
+        }
+        */
         public async Task<Item> GetItem(Guid playerId, Guid itemId)
         {
             Player player = Get(playerId).Result;
