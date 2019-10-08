@@ -1,4 +1,11 @@
-
+using System;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.Hosting;
+using MongoDB.Driver;
+using MongoDB.Bson;
 
 namespace dotnetKole
 {
@@ -14,19 +21,28 @@ namespace dotnetKole
             _collection = database.GetCollection<Player>("players");
             _bsonDocumentCollection = database.GetCollection<BsonDocument>("players");
         }
-        public async Task<Player> CreatePlayer(Player player)
+        public async Task<Player> Create(NewPlayer player)
         {
-            await _collection.InsertOneAsync(player);
-            return player;
+            Player newPlayer = new Player();
+            Guid playerId = Guid.NewGuid();
+            newPlayer.Id = playerId;
+            newPlayer.Name = player.Name;
+            newPlayer.CreationTime = DateTime.Now;
+            newPlayer.Level = 0;
+            newPlayer.Score = 0;
+            newPlayer.IsBanned = false;
+        
+            await _collection.InsertOneAsync(newPlayer);
+            return newPlayer;
         }
 
-        public async Task<Player[]> GetAllPlayers()
+        public async Task<Player[]> GetAll()
         {
             var players = await _collection.Find(new BsonDocument()).ToListAsync();
             return players.ToArray();
         }
 
-        public Task<Player> GetPlayer(Guid id)
+        public Task<Player> Get(Guid id)
         {
             var filter = Builders<Player>.Filter.Eq(p => p.Id, id);
             return _collection.Find(filter).FirstAsync();
@@ -38,7 +54,10 @@ namespace dotnetKole
             var players = await _collection.Find(filter).ToListAsync();
             return players.ToArray();
         }
-
+        public void SetEnvironment(IHostingEnvironment env)
+        {
+            throw new NotImplementedException();
+        }
 
         public Task<Player> IncreasePlayerScoreAndRemoveItem(Guid playerId, Guid itemId, int score)
         {
@@ -50,11 +69,13 @@ namespace dotnetKole
             return _collection.FindOneAndUpdateAsync(filter, update);
         }
 
-        public async Task<Player> UpdatePlayer(Player player)
+        public async Task<Player> Modify(Guid id,ModifiedPlayer player)
         {
-            FilterDefinition<Player> filter = Builders<Player>.Filter.Eq(p => p.Id, player.Id);
-            await _collection.ReplaceOneAsync(filter, player);
-            return player;
+            FilterDefinition<Player> filter = Builders<Player>.Filter.Eq(p => p.Id, id);
+            Player modifiedPlayer = Get(id).Result;
+            modifiedPlayer.Score = player.Score;
+            await _collection.ReplaceOneAsync(filter, modifiedPlayer);
+            return modifiedPlayer;
         }
 
         public async Task<Player[]> GetAllSortedByScoreDescending()
@@ -77,145 +98,40 @@ namespace dotnetKole
             return player;
         }
 
-        public async Task<Player> DeletePlayer(Guid playerId)
+        public async Task<Player> Delete(Guid playerId)
         {
             FilterDefinition<Player> filter = Builders<Player>.Filter.Eq(p => p.Id, playerId);
             return await _collection.FindOneAndDeleteAsync(filter);
         }
-
         public Task<NewItem> CreateItem(Guid playerId, NewItem item)
         {
-            return Task.Run(()=>{
-                
-                var jsonData = System.IO.File.ReadAllText(dataFilePath);
-                PlayersList playerList = JsonConvert.DeserializeObject<PlayersList>(jsonData);
-
-                foreach (var player in playerList.players)
-                {
-                    if (player.Id == playerId)
-                    {
-                        Item createdItem = new Item();
-                        createdItem.ItemType = item.ItemType;
-                        createdItem.Price = item.Price;
-                        createdItem.Id = Guid.NewGuid();
-                        player.Items.Add(createdItem);
-                        var json = JsonConvert.SerializeObject(playerList,Formatting.Indented);
-                        System.IO.File.WriteAllText(dataFilePath,json);
-                        
-                        return item;
-                    }
-                }
-                return null;
-            });
-        }
-
-        public Task<Item> DeleteItem(Guid playerId, Guid itemId)
-        {
-            return Task.Run(()=>{
-                
-                var jsonData = System.IO.File.ReadAllText(dataFilePath);
-                PlayersList playerList = JsonConvert.DeserializeObject<PlayersList>(jsonData);
-
-                foreach (var player in playerList.players)
-                {
-                    if (player.Id == playerId)
-                    {
-                        for (int index = 0; index < player.Items.Count; index++)
-                        {
-                            if (player.Items[index].Id == itemId)
-                            {   
-                                player.Items.RemoveAt(index);
-                                return player.Items[index];
-                            }
-                        }
-                    }
-                }
-                return null;
-            });
-        }
-
-        public Task<Item[]> GetAllItems(Guid playerId)
-        {
-            return Task.Run(()=>{
-                
-                var jsonData = System.IO.File.ReadAllText(dataFilePath);
-                PlayersList playerList = JsonConvert.DeserializeObject<PlayersList>(jsonData);
-
-                foreach (var player in playerList.players)
-                {
-                    if (player.Id == playerId)
-                    {
-                        return player.Items.ToArray();
-                    }
-                }
-                return null;
-            });
+            throw new NotImplementedException();
+            return null;
         }
 
         public Task<Item> GetItem(Guid playerId, Guid itemId)
         {
-            return Task.Run(()=>{
-                
-                var jsonData = System.IO.File.ReadAllText(dataFilePath);
-                PlayersList playerList = JsonConvert.DeserializeObject<PlayersList>(jsonData);
-
-                foreach (var player in playerList.players)
-                {
-                    if (player.Id == playerId)
-                    {
-                        foreach (var item in player.Items)
-                        {
-                            if (item.Id == itemId)
-                            {
-                                return item;
-                            }
-                        }
-                    }
-                }
-                return null;
-            });
+            throw new NotImplementedException();
+            return null;
         }
 
-        public Task<Item> UpdateItem(Guid playerId, Item item, ModifiedItem modifiedItem)
+        public Task<Item[]> GetAllItems(Guid playerId)
         {
-            return Task.Run(()=>{
-                
-                var jsonData = System.IO.File.ReadAllText(dataFilePath);
-                PlayersList playerList = JsonConvert.DeserializeObject<PlayersList>(jsonData);
-
-                foreach (var player in playerList.players)
-                {
-                    if (player.Id == playerId)
-                    {
-                        for (int index = 0; index < player.Items.Count; index++)
-                        {
-                            if (player.Items[index].Id == item.Id)
-                            {   
-                                player.Items[index].Level = modifiedItem.Price;
-                                player.Items[index].ItemType = modifiedItem.ItemType;
-                                return player.Items[index];
-                            }
-                        }
-                    }
-                }
-                return null;
-            });
+            throw new NotImplementedException();
+            return null;
         }
 
-        public class PlayersList
+        public Task<Item> UpdateItem(Guid playerId,Item item ,ModifiedItem modifiedItem)
         {
-            public PlayersList()
-            {
-
-            }
-
-            public PlayersList(int i)
-            {
-                players = new Player[i];
-            }
-
-            [JsonProperty("players")]
-            public Player[] players;
+            throw new NotImplementedException();
+            return null;
         }
+
+        public Task<Item> DeleteItem(Guid playerId, Guid item)
+        {
+            throw new NotImplementedException();
+            return null;
+        }
+        
     }
 }

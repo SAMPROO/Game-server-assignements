@@ -26,7 +26,7 @@ namespace dotnetKole
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddSingleton<IRepository, FileRepository>();
+            services.AddSingleton<IRepository, MongoDbRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,7 +43,7 @@ namespace dotnetKole
             }
             app.UseMiddleware<ErrorHandlingMiddleware>();
 
-            app.ApplicationServices.GetService<IRepository>().SetEnvironment(env);
+            //app.ApplicationServices.GetService<IRepository>().SetEnvironment(env);
 
             app.UseRouting();
 
