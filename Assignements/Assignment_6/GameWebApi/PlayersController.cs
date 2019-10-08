@@ -69,19 +69,21 @@ namespace dotnetKole
 
         // Assignment 6 Ex.3
         [HttpGet("{tag:int}")]
-        public Task<Player> GetByTag(int tag)
+        public Task<List<Player>> GetByTag(int tag)
         {
             return Task.Run( () => {
-                    var players = _repository.GetAll().Result;
-                    foreach(var player in players)
+
+                List<Player> playersList = new List<Player>();
+                var players = _repository.GetAll().Result;
+                foreach(var player in players)
+                {
+                    if((int)player.Tag == tag)
                     {
-                        if((int)player.Tag == tag)
-                        {
-                            return player;
-                        }
+                        playersList.Add(player);
                     }
-                    return null;
-                    } );
+                }
+                return playersList;
+            } );
         }
 
         // Assignment 6 Ex.4
