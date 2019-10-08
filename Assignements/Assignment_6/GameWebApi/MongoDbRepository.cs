@@ -107,9 +107,9 @@ namespace dotnetKole
             return players.ToArray();
         }
 
-        public async Task<Player> IncrementPlayerScore(string id, int increment)
+        public async Task<Player> IncrementPlayerScore(Guid id, int increment)
         {
-            var filter = Builders<Player>.Filter.Eq("_id", id);
+            var filter = Builders<Player>.Filter.Eq(i => i.Id, id);
             var incrementScoreUpdate = Builders<Player>.Update.Inc(p => p.Score, increment);
             var options = new FindOneAndUpdateOptions<Player>()
             {

@@ -137,6 +137,13 @@ namespace dotnetKole
             return _repository.UpdateNameDirect(id,name);
         }
         
+        // Assignment 6 Ex.7
+        [Route("{id}/IncrementScore/{increment:int}")]
+        [HttpPut]
+        public Task<Player> IncrementPlayerScore(Guid id, int increment)
+        {
+            return _repository.IncrementPlayerScore(id, increment);
+        }
         
         // Assignment 6 Ex.10
         [Route("topten")]

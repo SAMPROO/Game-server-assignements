@@ -18,6 +18,7 @@ namespace dotnetKole
         Task<Item[]> GetAllItems(Guid playerId);
         Task<Item> UpdateItem(Guid playerId, Guid item, ModifiedItem modifiedItem);
         Task<Item> DeleteItem(Guid playerId, Guid itemId);
+        Task<Player> IncrementPlayerScore(Guid id, int increment);
 
         void SetEnvironment(IHostingEnvironment env);
         
