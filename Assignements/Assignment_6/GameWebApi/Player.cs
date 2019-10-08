@@ -28,7 +28,6 @@ namespace dotnetKole
         public DateTime CreationTime{get;set;}
         [JsonProperty("Items")]
         public List<Item> Items { get; set; }
-        
 
     }
 }

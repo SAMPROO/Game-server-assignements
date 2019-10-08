@@ -32,7 +32,7 @@ namespace dotnetKole
             //ValidatePlayerLevelTooLowForSwordException(playerId, item);
             return _repository.CreateItem(playerId, item); 
                 
-        }      
+        }
 
         private void ValidatePlayerLevelTooLowForSwordException(Guid playerId, NewItem item)
         {

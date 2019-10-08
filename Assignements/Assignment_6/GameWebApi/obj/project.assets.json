@@ -9497,11 +9497,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\GitHub\\Game-server-assignements\\Assignements\\Assignment_6\\GameWebApi\\GameWebApi.csproj",
+      "projectUniqueName": "C:\\GitHub\\Game-server-assignements\\Assignements\\Assignment_5\\GameWebApi\\GameWebApi.csproj",
       "projectName": "GameWebApi",
-      "projectPath": "C:\\GitHub\\Game-server-assignements\\Assignements\\Assignment_6\\GameWebApi\\GameWebApi.csproj",
+      "projectPath": "C:\\GitHub\\Game-server-assignements\\Assignements\\Assignment_5\\GameWebApi\\GameWebApi.csproj",
       "packagesPath": "C:\\Users\\Sampo\\.nuget\\packages\\",
-      "outputPath": "C:\\GitHub\\Game-server-assignements\\Assignements\\Assignment_6\\GameWebApi\\obj\\",
+      "outputPath": "C:\\GitHub\\Game-server-assignements\\Assignements\\Assignment_5\\GameWebApi\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
