@@ -14,7 +14,7 @@ namespace dotnetKole
         Task<NewItem> CreateItem(Guid playerId, NewItem item);
         Task<Item> GetItem(Guid playerId, Guid itemId);
         Task<Item[]> GetAllItems(Guid playerId);
-        Task<Item> UpdateItem(Guid playerId, Item item, ModifiedItem modifiedItem);
+        Task<Item> UpdateItem(Guid playerId, Guid item, ModifiedItem modifiedItem);
         Task<Item> DeleteItem(Guid playerId, Guid itemId);
 
         void SetEnvironment(IHostingEnvironment env);

@@ -103,33 +103,77 @@ namespace dotnetKole
             FilterDefinition<Player> filter = Builders<Player>.Filter.Eq(p => p.Id, playerId);
             return await _collection.FindOneAndDeleteAsync(filter);
         }
-        public Task<NewItem> CreateItem(Guid playerId, NewItem item)
+        public async Task<NewItem> CreateItem(Guid playerId, NewItem item)
         {
-            throw new NotImplementedException();
+            FilterDefinition<Player> filter = Builders<Player>.Filter.Eq(p => p.Id, playerId);
+            Item createdItem = new Item();
+            createdItem.ItemType = item.ItemType;
+            createdItem.Price = item.Price;
+            createdItem.Id = Guid.NewGuid();
+            Player player = Get(playerId).Result;
+            player.Items.Add(createdItem);
+
+            await _collection.ReplaceOneAsync(filter, player);
+            return item;
+        }
+
+        public async Task<Item> GetItem(Guid playerId, Guid itemId)
+        {
+            Player player = Get(playerId).Result;
+            foreach (var item in player.Items)
+            {
+                if (item.Id == itemId)
+                {
+                    return item;
+                }
+            }
+            
             return null;
         }
 
-        public Task<Item> GetItem(Guid playerId, Guid itemId)
+        public async Task<Item[]> GetAllItems(Guid playerId)
         {
-            throw new NotImplementedException();
+            Player player = Get(playerId).Result;
+            if (player != null)
+                return player.Items.ToArray();
+
             return null;
         }
 
-        public Task<Item[]> GetAllItems(Guid playerId)
+        public async Task<Item> UpdateItem(Guid playerId, Guid item, ModifiedItem modifiedItem)
         {
-            throw new NotImplementedException();
-            return null;
+            FilterDefinition<Player> filter = Builders<Player>.Filter.Eq(p => p.Id, playerId);
+            Player modifiedPlayer = Get(playerId).Result;
+            Item storeItem = null;
+
+            foreach (var i in modifiedPlayer.Items)
+            {
+                if (item == i.Id)
+                {
+                    i.Price = modifiedItem.Price;
+                    i.ItemType = modifiedItem.ItemType;
+                    storeItem = i;
+                }
+            }
+
+            await _collection.ReplaceOneAsync(filter, modifiedPlayer);
+            return storeItem;
         }
 
-        public Task<Item> UpdateItem(Guid playerId,Item item ,ModifiedItem modifiedItem)
+        public async Task<Item> DeleteItem(Guid playerId, Guid item)
         {
-            throw new NotImplementedException();
-            return null;
-        }
+            FilterDefinition<Player> filter = Builders<Player>.Filter.Eq(p => p.Id, playerId);
+            Player modifiedPlayer = Get(playerId).Result;
 
-        public Task<Item> DeleteItem(Guid playerId, Guid item)
-        {
-            throw new NotImplementedException();
+            for (int i = 0; i < modifiedPlayer.Items.Count - 1; i++)
+            {
+                if (modifiedPlayer.Items[i].Id == item)
+                {
+                    modifiedPlayer.Items.RemoveAt(i);
+                    return modifiedPlayer.Items[i];
+                }
+            }
+            await _collection.ReplaceOneAsync(filter, modifiedPlayer);
             return null;
         }
         

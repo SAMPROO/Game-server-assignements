@@ -285,7 +285,7 @@ namespace dotnetKole
             });
         }
 
-        public Task<Item> UpdateItem(Guid playerId, Item item, ModifiedItem modifiedItem)
+        public Task<Item> UpdateItem(Guid playerId, Guid item, ModifiedItem modifiedItem)
         {
             return Task.Run(()=>{
                 
@@ -298,7 +298,7 @@ namespace dotnetKole
                     {
                         for (int index = 0; index < player.Items.Count; index++)
                         {
-                            if (player.Items[index].Id == item.Id)
+                            if (player.Items[index].Id == item)
                             {   
                                 player.Items[index].Level = modifiedItem.Price;
                                 player.Items[index].ItemType = modifiedItem.ItemType;

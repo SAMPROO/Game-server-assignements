@@ -52,10 +52,11 @@ namespace dotnetKole
             return _repository.GetAllItems(playerId);
         }
 
-        //public Task<Item> UpdateItem(Guid playerId, Item item, ModifiedItem modifiedItem)
-        //{
-        //    return _repository.UpdateItem(playerId, item, modifiedItem);
-        //}
+        [HttpPut]
+        public Task<Item> UpdateItem(Guid playerId, Guid item, [FromBody]ModifiedItem modifiedItem)
+        {
+            return _repository.UpdateItem(playerId, item, modifiedItem);
+        }
         [HttpDelete("{itemId}")]
         public Task<Item> DeleteItem(Guid playerId, Guid itemId)
         {
