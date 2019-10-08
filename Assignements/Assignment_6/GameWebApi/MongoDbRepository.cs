@@ -39,7 +39,7 @@ namespace dotnetKole
         {
             var filter = Builders<Player>.Filter.Eq(i => i.Id, id);
             var update = Builders<Player>.Update.Set(n => n.Name, name);
-            _collection.UpdateOneAsync(filter,update);
+            await _collection.UpdateOneAsync(filter,update);
             return _collection.Find(Builders<Player>.Filter.Eq(p => p.Id, id)).FirstAsync().Result;
         }
 

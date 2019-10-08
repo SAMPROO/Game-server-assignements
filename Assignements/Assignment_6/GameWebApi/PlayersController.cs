@@ -130,7 +130,7 @@ namespace dotnetKole
         }
 
         // Assignment 6 Ex.6
-        [Route("{id}/updatename/{name}")]
+        [Route("{id:guid}/updatename/{name}")]
         [HttpPut]
         public Task<Player> UpdateName(Guid id, string name)
         {
