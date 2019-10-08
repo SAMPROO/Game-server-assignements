@@ -17,33 +17,7 @@ namespace dotnetKole
             _repository = i;
         }
 
-        [HttpGet("{id:guid}")]
-        public Task<Player> Get(Guid id)
-        {   
-            return _repository.Get(id);
-          
-        }
-        [Route("{id}/updatename/{name}")] // teht 6 
-        [HttpPut]
-        public Task<Player> UpdateName(Guid id, string name)
-        {
-            return _repository.UpdateNameDirect(id,name);
-        }
-        [HttpGet("{name}")]
-        public Task<Player> Get(string name) // Mongoton etsi nimellää toteutus
-        {
-            return Task.Run( () => {
-                    var players = _repository.GetAll().Result;
-                    foreach(var player in players)
-                    {
-                        if(player.Name==name)
-                        {
-                            return player;
-                        }
-                    }
-                    return null;
-                    } );
-        }
+        // Assignment 6 Ex.1
         [HttpGet]
         public Task<Player[]> GetAll([FromQuery]int minScore = 0)
         {
@@ -67,12 +41,53 @@ namespace dotnetKole
             {
                 return _repository.GetAll();
             }
-            
         }
 
+        // Assignment 6 Ex.2
+        [HttpGet("{id:guid}")]
+        public Task<Player> Get(Guid id)
+        {   
+            return _repository.Get(id);
+        }
+
+        // Assignment 6 Ex.2
+        [HttpGet("{name}")]
+        public Task<Player> Get(string name) // Mongoton etsi nimellää toteutus
+        {
+            return Task.Run( () => {
+                    var players = _repository.GetAll().Result;
+                    foreach(var player in players)
+                    {
+                        if(player.Name==name)
+                        {
+                            return player;
+                        }
+                    }
+                    return null;
+                    } );
+        }
+
+        // Assignment 6 Ex.3
+        [HttpGet("{tag:int}")]
+        public Task<Player> GetByTag(int tag)
+        {
+            return Task.Run( () => {
+                    var players = _repository.GetAll().Result;
+                    foreach(var player in players)
+                    {
+                        if((int)player.Tag == tag)
+                        {
+                            return player;
+                        }
+                    }
+                    return null;
+                    } );
+        }
+
+        // Assignment 6 Ex.4
         [Route("withitem")]
         [HttpGet]
-        public Task<Player[]> GetAll([FromQuery]ItemType type) // tehtava 4
+        public Task<Player[]> GetAll([FromQuery]ItemType type)
         {
             return Task.Run( ()=> {
                 var players = _repository.GetAll().Result;
@@ -92,6 +107,36 @@ namespace dotnetKole
 
             });
         }
+
+        // Assignment 6 Ex.5
+        [Route("GetPlayersByItemAmount/{count:int}")]
+        [HttpGet]
+        public Task<List<Player>> GetPlayersByItemAmount(int count)
+        {
+            return Task.Run( () => {
+                    var players = _repository.GetAll().Result;
+                    List<Player> playersWithCountItems = new List<Player>();
+                    foreach(var player in players)
+                    {
+                        if(player.Items.Count >= count)
+                        {
+                            playersWithCountItems.Add(player);
+                        }
+                    }
+                    return playersWithCountItems;
+                    } );
+        }
+
+        // Assignment 6 Ex.6
+        [Route("{id}/updatename/{name}")]
+        [HttpPut]
+        public Task<Player> UpdateName(Guid id, string name)
+        {
+            return _repository.UpdateNameDirect(id,name);
+        }
+        
+        
+        // Assignment 6 Ex.10
         [Route("topten")]
         [HttpGet]
         public Task<Player[]> GetAllTopTen() // tehtava 10

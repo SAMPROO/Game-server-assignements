@@ -1,27 +1,28 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Game-server-assignements\\Assignements\\Assignment_5\\GameWebApi\\GameWebApi.csproj": {}
+    "C:\\GitHub\\Game-server-assignements\\Assignements\\Assignment_5\\GameWebApi\\GameWebApi.csproj": {}
   },
   "projects": {
-    "D:\\Game-server-assignements\\Assignements\\Assignment_5\\GameWebApi\\GameWebApi.csproj": {
+    "C:\\GitHub\\Game-server-assignements\\Assignements\\Assignment_5\\GameWebApi\\GameWebApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Game-server-assignements\\Assignements\\Assignment_5\\GameWebApi\\GameWebApi.csproj",
+        "projectUniqueName": "C:\\GitHub\\Game-server-assignements\\Assignements\\Assignment_5\\GameWebApi\\GameWebApi.csproj",
         "projectName": "GameWebApi",
-        "projectPath": "D:\\Game-server-assignements\\Assignements\\Assignment_5\\GameWebApi\\GameWebApi.csproj",
-        "packagesPath": "C:\\Users\\Plttr\\.nuget\\packages\\",
-        "outputPath": "D:\\Game-server-assignements\\Assignements\\Assignment_5\\GameWebApi\\obj\\",
+        "projectPath": "C:\\GitHub\\Game-server-assignements\\Assignements\\Assignment_5\\GameWebApi\\GameWebApi.csproj",
+        "packagesPath": "C:\\Users\\Sampo\\.nuget\\packages\\",
+        "outputPath": "C:\\GitHub\\Game-server-assignements\\Assignements\\Assignment_5\\GameWebApi\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Plttr\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\Sampo\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

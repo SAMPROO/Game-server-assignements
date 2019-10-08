@@ -16,6 +16,8 @@ namespace dotnetKole
         public Guid Id { get; set; }
         [JsonProperty("Name")]
         public string Name { get; set;}
+        [JsonProperty("Tag")]
+        public Tag Tag { get; set; }
         [JsonProperty("Score")]
         public int Score{get; set;}
         [JsonProperty("Level")]
