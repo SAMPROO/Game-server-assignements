@@ -21,15 +21,46 @@ namespace ShipGame
         }
         public async Task<Match[]> GetAll()
         {
-            var players = await _collection.Find(new BsonDocument()).ToListAsync();
-            return players.ToArray(); 
+            var matches =  _collection.Find(new BsonDocument()).ToList();
+
+            Match[] matchesArr = matches.ToArray();
+
+            foreach(var mat in matchesArr)
+            {
+                Console.WriteLine(mat.InProgress);
+            }
+            return matchesArr; 
         }
-        public async Task<Match> CreateMatch(Player player1, Player player2)
+        public async Task<Match> CreateMatch(NewPlayer player1, NewPlayer player2)
         {
-            Match match = new Match(player1, player2);
+            Player p1 = new Player();
+            Player p2 = new Player();
+            p1.Name = player1.Name;
+            p2.Name = player2.Name;
+            Match match = new Match(p1,p2);
             await _collection.InsertOneAsync(match);
             return match;         
         }
+        public async Task<Match> Get(Guid id)
+        {
+            var filter = Builders<Match>.Filter.Eq(p => p.Id, id);
+            return await _collection.Find(filter).FirstAsync();
+        }
+        public async Task<bool> DeleteAll()
+        {
+            var delete = await _collection.DeleteManyAsync("{}");
+
+            return true;
+        }
+
+        public async Task<Ship[]> AddShip(Guid matchId,Guid playerId,Coordinate pos1,Coordinate pos2)
+        {
+            Ship ship = new Ship(pos1,pos2);
+            Console.WriteLine("------------------------------------------------------------------------");
+            return null;
+        }
+
+
         public Task<Match> GetMatchStatus(Guid matchId)
         {
             throw new NotImplementedException();
