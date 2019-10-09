@@ -32,6 +32,16 @@ namespace ShipGame
             return _repository.Get(id);
         }
 
+        /* Example JSON
+        [  
+            {  
+                "Name" : "Arnold Schwarzenegger"
+            },
+            {  
+                "Name" : "Sylvester Stallone"
+            }
+        ]
+        */
         [Route("create")]
         [HttpPost]
         public Task<Match> CreateMatch([FromBody]NewPlayer[] players)
@@ -67,15 +77,19 @@ namespace ShipGame
         [HttpPut("{matchId}/{playerId}/Shoot")]
         public Task<Ship[]> Shoot(Guid matchId,Guid playerId, [FromQuery]Coordinate pos)
         {
-
             return _repository.DestroyPart(matchId,playerId,pos);
-            
-            
         }
+        
         [HttpPut("DeleteAll")]
         public Task<bool> DeleteAll()
         {
             return _repository.DeleteAll();
+        }
+
+        [HttpPut("DeleteMatch/{id:guid}")]
+        public Task<Match> DeleteMatch(Guid id)
+        {
+            return _repository.DeleteMatch(id);
         }
 
     }

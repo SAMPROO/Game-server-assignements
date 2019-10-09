@@ -161,9 +161,12 @@ namespace ShipGame
         {
             throw new NotImplementedException();
         }
-        public Task<Match> DeleteMatch(Guid matchId)
-        {
-            throw new NotImplementedException();
+        public async Task<Match> DeleteMatch(Guid matchId)
+        {   
+            Match match = Get(matchId).Result;
+            await _collection.DeleteOneAsync(Builders<Match>.Filter.Eq(p => p.Id, matchId));
+
+            return match;
         }
         public Task<bool> GetPosition(Guid matchId, Guid playerId, Coordinate pos)
         {
