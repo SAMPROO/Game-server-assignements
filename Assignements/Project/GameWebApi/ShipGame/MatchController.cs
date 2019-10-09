@@ -53,8 +53,6 @@ namespace ShipGame
             else
             {
                 throw new NotFoundException("Too many player being created. Only 2 allowed per game.");
-                //throw new InvalidMatchParametersException;
-                Console.WriteLine("Invalid Match parameters");
             } 
         }
         [HttpGet("{matchId}/{playerId}")]
