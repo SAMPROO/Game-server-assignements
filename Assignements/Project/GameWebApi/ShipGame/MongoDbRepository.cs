@@ -53,11 +53,25 @@ namespace ShipGame
             return true;
         }
 
-        public async Task<Ship[]> AddShip(Guid matchId,Guid playerId,Coordinate pos1,Coordinate pos2)
+        public async Task<Ship[]> AddShip(Guid matchId,Guid playerId, Coordinate start, Coordinate end)
         {
-            Ship ship = new Ship(pos1,pos2);
-            Console.WriteLine("------------------------------------------------------------------------");
-            return null;
+            var filter = Builders<Match>.Filter.Eq(p => p.Id, matchId);
+
+            var match = Get(matchId).Result;
+            Player player;
+            if (match.Player1.Id == playerId)
+            {
+                match.Player1.Ships.Add(new Ship(start, end));
+                player = match.Player1;
+            }
+            else
+            {
+                match.Player2.Ships.Add(new Ship(start, end));
+                player = match.Player2;
+            }
+
+            await _collection.ReplaceOneAsync(filter, match);
+            return player.Ships.ToArray();
         }
 
 

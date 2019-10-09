@@ -32,7 +32,7 @@ namespace ShipGame
         {
             Id = Guid.NewGuid();
         }
-        public Player(string _name, Ship[] _ships)
+        public Player(string _name, List<Ship> _ships)
         {
             Id = Guid.NewGuid();
             Name = _name;
@@ -41,7 +41,7 @@ namespace ShipGame
         
         public Guid Id {get; set;}
         public string Name {get; set;}
-        public Ship[] Ships {get; set;}
+        public List<Ship> Ships {get; set;}
     }
     public class NewPlayer
     {
