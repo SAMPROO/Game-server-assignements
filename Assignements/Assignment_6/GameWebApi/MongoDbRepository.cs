@@ -151,20 +151,37 @@ namespace dotnetKole
             return (int)levelCounts.Id;
         }
 
-        public async Task<List<Tuple<int, int>>> GetItemCountByPrice()
+        public async Task GetItemCountByPrice()
         {   
+            /*           
+            .SelectMany(p => p.Items, (k,s) => new
+                {
+                    priceAmount = s.Price
+                }
+            .GroupBy(p => p.EndpointId, (k,s) => new
+            {
+                tags = s.Sum(p => p.Tags.Count()),
+                sensors = s.Sum(p => p.Tags.Select(x => x.Sensors.Count()).Sum())
+            }
+            ));   
+
             var results = _collection.AsQueryable()
-                .SelectMany(p => p.Items, (player, item) => new
+                .SelectMany(p => p.Items, (p, item) => new
                 {
                     Price = item.Price
-                }
-                .GroupBy((k, s) => new { Key = k, count = s.Count()})
+                )
+                .GroupBy(p => new { ,
+                    (k, s) => new { Key = k, count = s.Count() }
+                )
                 .GroupBy(p => p.Key.EndpointId,
                     (k, s) => new
                     {
-                        PriceCount = s.Count(),
+                    priceCount = s.Count(),
                     }
-                ));
+                });
+
+            Console.WriteLine(results);
+            */
         }
 
         public async Task<Player> IncrementPlayerScore(Guid id, int increment)
