@@ -10,7 +10,8 @@ namespace ShipGame
         Task<Match> CreateMatch(NewPlayer player1, NewPlayer player2);
         Task<Match[]> GetAll();
         Task<Match> Get(Guid id);
-        Task<Match> GetMatchStatus(Guid matchId);
+        Task<Match[]> GetLiveMatches();
+        Task<bool> CheckIfInProgress(Guid matchId);
         Task<Ship[]> AddShip(Guid matchId, Guid playerId,Coordinate pos1, Coordinate pos2);
         Task<Match> DeleteMatch(Guid matchId);
         Task<bool> GetPosition(Guid matchId, Guid playerId, Coordinate pos);

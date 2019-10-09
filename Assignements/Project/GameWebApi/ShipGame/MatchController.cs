@@ -13,7 +13,6 @@ namespace ShipGame
     [ApiController]
     public class MatchController
     {
-        
         private IRepository _repository;
 
         public MatchController(IRepository i)
@@ -44,7 +43,7 @@ namespace ShipGame
             }
         ]
         */
-        [Route("create")]
+        [Route("Create")]
         [HttpPost]
         public Task<Match> CreateMatch([FromBody]NewPlayer[] players)
         {   
@@ -59,6 +58,19 @@ namespace ShipGame
         public Task<Ship[]> GetPlayerShips(Guid matchId,Guid playerId)
         {
             return _repository.GetPlayerShips(matchId,playerId);
+        }
+
+        [HttpGet("CheckIfInProgress/{matchId}")]
+        public Task<bool> CheckIfInProgress(Guid matchId)
+        {
+            return _repository.CheckIfInProgress(matchId);
+        }
+
+        [Route("GetLiveMatches")]
+        [HttpGet]
+        public Task<Match[]> GetLiveMatches()
+        {
+            return _repository.GetLiveMatches();
         }
 
         /* Example JSON

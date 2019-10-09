@@ -147,10 +147,22 @@ namespace ShipGame
             return enemy.Ships.ToArray();
         }
 
-        public Task<Match> GetMatchStatus(Guid matchId)
+        public async Task<bool> CheckIfInProgress(Guid matchId)
         {
-            throw new NotImplementedException();
+            var status = await Get(matchId);
+            return status.InProgress;
         }
+
+        public async Task<Match[]> GetLiveMatches()
+        {
+            FilterDefinition<Match> filter = Builders<Match>.Filter.Eq(p => p.InProgress, true);
+            var result = await _collection.Find(filter).ToListAsync();
+            if (result == null)
+                throw new NotFoundException(NotFoundException.ErrorType.OTHER, "No live games found");
+
+            return result.ToArray();
+        }
+        
         public async Task<Match> DeleteMatch(Guid matchId)
         {   
             Match match = Get(matchId).Result;
