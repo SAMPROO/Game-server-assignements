@@ -60,7 +60,10 @@ namespace ShipGame
         {
             return _repository.GetPlayerShips(matchId,playerId);
         }
-        
+
+        /* Example JSON
+            [{"X":1,"Y":1},{"X":1,"Y":3}]
+        */
         [HttpPost("{matchId}/{playerId}")]
         public Task<Ship[]> AddShip(Guid matchId,Guid playerId, [FromBody]Coordinate[] coordinates)
         {
