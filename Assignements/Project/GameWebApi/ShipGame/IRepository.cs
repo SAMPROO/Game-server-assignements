@@ -15,5 +15,7 @@ namespace ShipGame
         Task<bool> GetPosition(Guid matchId, Guid playerId, Coordinate pos);
         Task<ActionReport> DestroyPiece(Guid matchId,Coordinate pos);
         Task<Ship[]> GetPlayerShips(Guid matchId, Guid playerId);
+        Task<bool> DeleteAll();
+
     }
 }

@@ -47,6 +47,12 @@ namespace ShipGame
             var filter = Builders<Match>.Filter.Eq(p => p.Id, id);
             return await _collection.Find(filter).FirstAsync();
         }
+        public async Task<bool> DeleteAll()
+        {
+            var kyrpa = await _collection.DeleteManyAsync("{}");
+
+            return true;
+        }
 
 
         public Task<Match> GetMatchStatus(Guid matchId)

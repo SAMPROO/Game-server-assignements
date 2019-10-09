@@ -66,6 +66,11 @@ namespace ShipGame
             }
             
         }
+        [HttpPut("DeleteAll")]
+        public Task<bool> DeleteAll()
+        {
+            return _repository.DeleteAll();
+        }
 
     }
 }

@@ -21,9 +21,8 @@ namespace ShipGame
             Id = Guid.NewGuid();
         }
 
-        public bool InProgress          {get; set;}
-        [BsonId]
         public Guid Id                  {get; set;}
+        public bool InProgress          {get; set;}   
         public Player Player1           {get; set;}
         public Player Player2           {get; set;}
     }
