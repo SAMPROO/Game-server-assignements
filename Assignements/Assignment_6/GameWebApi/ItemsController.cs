@@ -19,6 +19,15 @@ namespace dotnetKole
      
         
         // Assignment 6 Ex.8
+        /* 
+        [Route("AddItem")]
+        [HttpPut]
+        public Task<Player> AddItemToPlayer(Guid id, [FromBody]NewItem item)
+        {
+            return _repository.AddItemToPlayer(id, item);
+        }
+        */
+
         [HttpPost]
         [PlayerLevelTooLowForSwordExceptionFilter]
         public Task<NewItem> CreateItem(Guid playerId,[FromBody] NewItem item)

@@ -19,9 +19,22 @@ namespace dotnetKole
 
         // Assignment 6 Ex.1
         [HttpGet]
-        public Task<Player[]> GetAll([FromQuery]int minScore = 0)
+        public Task<Player[]> GetAll()
         {
-        
+            return _repository.GetAll();
+        }
+
+        // Assignment 6 Ex.1
+        [Route("GetAllMinScore/{minScore:int}")]
+        [HttpGet]
+        public Task<List<Player>> GetAll(int minScore = 0)
+        {
+            return _repository.GetAll(minScore);
+        }
+
+        /*
+        public Task<Player[]> GetAll()
+        {
             if(minScore>0)
             { 
                 return Task.Run( () => {
@@ -40,8 +53,8 @@ namespace dotnetKole
             else
             {
                 return _repository.GetAll();
-            }
-        }
+            } 
+        */
 
         // Assignment 6 Ex.2
         [HttpGet("{id:guid}")]
@@ -49,70 +62,69 @@ namespace dotnetKole
         {   
             return _repository.Get(id);
         }
+        /* 
+        public Task<Player> Get(Guid id)
+        {
+            return Task.Run( () => {
+                var players = _repository.GetAll().Result;
+                foreach(var player in players)
+                {
+                    if(player.Id==id)
+                    {
+                        return player;
+                    }
+                }
+                return null;
+                } );
+        */
 
         // Assignment 6 Ex.2
         [HttpGet("{name}")]
-        public Task<Player> Get(string name) // Mongoton etsi nimellää toteutus
+        public Task<Player> Get(string name)
+        {   
+            return _repository.Get(name);
+        }
+        /*
+        public Task<Player> Get(string name)
         {
             return Task.Run( () => {
-                    var players = _repository.GetAll().Result;
-                    foreach(var player in players)
+                var players = _repository.GetAll().Result;
+                foreach(var player in players)
+                {
+                    if(player.Name==name)
                     {
-                        if(player.Name==name)
-                        {
-                            return player;
-                        }
+                        return player;
                     }
-                    return null;
-                    } );
-        }
+                }
+                return null;
+                } );
+        */
 
         // Assignment 6 Ex.3
         [HttpGet("{tag:int}")]
         public Task<List<Player>> GetByTag(int tag)
-        {
-            return Task.Run( () => {
-
-                List<Player> playersList = new List<Player>();
-                var players = _repository.GetAll().Result;
-                foreach(var player in players)
-                {
-                    if((int)player.Tag == tag)
-                    {
-                        playersList.Add(player);
-                    }
-                }
-                return playersList;
-            } );
+        {   
+            return _repository.GetByTag(tag);
         }
 
         // Assignment 6 Ex.4
-        [Route("withitem")]
+        [Route("WithItem/{type:int}")]
         [HttpGet]
-        public Task<Player[]> GetAll([FromQuery]ItemType type)
-        {
-            return Task.Run( ()=> {
-                var players = _repository.GetAll().Result;
-                var playersWithItemType = new List<Player>();
-                foreach(var player in players)
-                {
-                    foreach(var item in player.Items)
-                    {
-                        if(item.ItemType == type)
-                        {
-                            playersWithItemType.Add(player);
-                            break;
-                        }
-                    }
-                }
-                return playersWithItemType.ToArray();
-
-            });
+        public Task<List<Player>> GetWithItemType(int type)
+        {   
+            return _repository.GetWithItemType(type);
         }
 
         // Assignment 6 Ex.5
+        // Needs fixing
         [Route("GetPlayersByItemAmount/{count:int}")]
         [HttpGet]
+        public Task<List<Player>> GetPlayersByItemAmount(int count)
+        {   
+            return _repository.GetPlayersByItemAmount(count);
+        }
+
+        /*
         public Task<List<Player>> GetPlayersByItemAmount(int count)
         {
             return Task.Run( () => {
@@ -127,7 +139,7 @@ namespace dotnetKole
                     }
                     return playersWithCountItems;
                     } );
-        }
+        */
 
         // Assignment 6 Ex.6
         [Route("{id:guid}/updatename/{name}")]
@@ -148,32 +160,11 @@ namespace dotnetKole
         // Assignment 6 Ex.8 in ItemController
 
         // Assignment 6 Ex.9
-        [Route("{playerId:guid}/Sell/{itemId:guid}")]
+        [Route("{playerId:guid}/Sell/{itemId:guid}/{score:int}")]
         [HttpGet]
-        public Task<Player> Sell(Guid playerId, Guid itemId)
+        public Task<Player> IncreasePlayerScoreAndRemoveItem(Guid playerId, Guid itemId, int score)
         {
-            return Task.Run( () => {
-                var players = _repository.GetAll().Result;
-                int itemCost = 0;
-                foreach(var player in players)
-                {
-                    if(player.Id == playerId)
-                    {
-                        foreach (var item in player.Items)
-                        {
-                            if (item.Id == itemId)
-                            {
-                                Console.WriteLine("ASDASDASD");
-                                itemCost = item.Price;
-                                _repository.DeleteItem(playerId, itemId);
-                                _repository.IncrementPlayerScore(playerId, itemCost);
-                                return _repository.Get(playerId).Result;
-                            }
-                        }
-                    }
-                }
-                return null;
-                } );
+            return _repository.IncreasePlayerScoreAndRemoveItem(playerId, itemId, score);
         }
         
         // Assignment 6 Ex.10
@@ -181,23 +172,22 @@ namespace dotnetKole
         [HttpGet]
         public Task<Player[]> GetAllTopTen()
         {
-            return Task.Run(()=>{
-                return _repository.GetAllSortedByScoreDescending(); // Mongo toteutus
-            });
-            /*
-                return Task.Run( () => {                            // Mongoton toteutus
-                    var players = _repository.GetAll().Result;
-                    var playersTopTen = new List<Player>();
-                    foreach(var player in players)
-                    {   
-                        if(playersTopTen.Count<10)
-                            playersTopTen.Add(player);
-                    }
-                    var playersTopTenSorted = playersTopTen.OrderByDescending(x => x.Score);
-                return playersTopTenSorted.ToArray();
-                } );
-        */
+            return _repository.GetAllSortedByScoreDescending();
         }
+        /*
+        public Task<Player[]> GetAllTopTen()
+        {
+            return Task.Run( () => {
+                var players = _repository.GetAll().Result;
+                var playersTopTen = new List<Player>();
+                foreach(var player in players)
+                    if(playersTopTen.Count<10)
+                        playersTopTen.Add(player);
+                }
+                var playersTopTenSorted = playersTopTen.OrderByDescending(x => x.Score);
+                return playersTopTenSorted.ToArray();
+            } );
+        */
         
         [HttpPost]
         public Task<Player> Create([FromBody]NewPlayer player)

@@ -47,7 +47,12 @@ namespace dotnetKole
         {
             var players = await _collection.Find(new BsonDocument()).ToListAsync();
             return players.ToArray();    
-    
+        }
+
+        public async Task<List<Player>> GetAll(int minScore)
+        {
+            var filter = Builders<Player>.Filter.Gte(p => p.Score, minScore);
+            return await _collection.Find(filter).ToListAsync();
         }
         public async Task<Player[]> GetAllOver(int minLevel)
         {
@@ -63,10 +68,38 @@ namespace dotnetKole
             return playersOverLevel.ToArray();
         }
 
-        public Task<Player> Get(Guid id)
+        public async Task<Player> Get(Guid id)
         {
             var filter = Builders<Player>.Filter.Eq(p => p.Id, id);
-            return _collection.Find(filter).FirstAsync();
+            return await _collection.Find(filter).FirstAsync();
+        }
+        public async Task<Player> Get(string name)
+        {
+            var filter = Builders<Player>.Filter.Eq(p => p.Name, name);
+            return await _collection.Find(filter).FirstAsync();
+        }
+
+        public async Task<List<Player>> GetByTag(int tag)
+        {
+            FilterDefinition<Player> filter = Builders<Player>.Filter.Eq(p => p.Tag, (Tag)tag);
+            return await _collection.Find(filter).ToListAsync();
+        }
+
+        public async Task<List<Player>> GetWithItemType(int type)
+        {
+            var filter = Builders<Player>.Filter.ElemMatch<Item>(
+                p => p.Items,
+                Builders<Item>.Filter.Eq(
+                    i => i.ItemType, (ItemType)type
+                )
+            );
+            return await _collection.Find(filter).ToListAsync();
+        }
+
+        public async Task<List<Player>> GetPlayersByItemAmount(int count)
+        {
+            var filter = Builders<Player>.Filter.Gte(p => p.Items.Count, count);
+            return await _collection.Find(filter).ToListAsync();
         }
 
         public async Task<Player[]> GetBetweenLevelsAsync(int minLevel, int maxLevel)
@@ -137,12 +170,19 @@ namespace dotnetKole
             await _collection.ReplaceOneAsync(filter, player);
             return item;
         }
-        /*
-        public async Task<NewItem> AddItem(string playerName, NewItem item)
+
+        // Broken 
+        /* 
+        public async Task<Player> AddItemToPlayer(Guid playerId, NewItem item)
         {
-            IMongoCollection<Item> playerItems = database.GetCollection<Item>("");
+            FilterDefinition<Player> filter = Builders<Player>.Filter.Eq(p => p.Id, playerId);
+            var update = Builders<Player>.Update.Push(p => p.Items,
+            new Item(Guid.NewGuid(), 0, item.Price, item.ItemType, new DateTime()));
+
+            return await _collection.ReplaceOneAsync(filter, update);
         }
         */
+
         public async Task<Item> GetItem(Guid playerId, Guid itemId)
         {
             Player player = Get(playerId).Result;
