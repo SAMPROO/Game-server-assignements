@@ -11,6 +11,7 @@ namespace dotnetKole
         Task<List<Player>> GetByTag(int tag);
         Task<List<Player>> GetWithItemType(int type);
         Task<List<Player>> GetPlayersByItemAmount(int amount);
+        Task<List<Tuple<int, int>>> GetItemCountByPrice();
         Task<Player> IncreasePlayerScoreAndRemoveItem(Guid playerId, Guid itemId, int score);
         Task<Player[]> GetAll();
         Task<List<Player>> GetAll(int minScore = 0);

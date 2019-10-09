@@ -196,6 +196,14 @@ namespace dotnetKole
         {
             return _repository.GetMostCommonLevel();
         }
+
+        // Assignment 6 Ex.11
+        [Route("GetItemCountByPrice")]
+        [HttpGet]
+        public Task<List<Tuple<int, int>>> GetItemCountByPrice()
+        {
+            return _repository.GetItemCountByPrice();
+        }
         
         [HttpPost]
         public Task<Player> Create([FromBody]NewPlayer player)

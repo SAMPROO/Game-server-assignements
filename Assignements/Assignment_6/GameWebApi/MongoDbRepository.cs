@@ -150,6 +150,20 @@ namespace dotnetKole
             return (int)levelCounts.Id;
         }
 
+        public async Task<List<Tuple<int, int>>> GetItemCountByPrice()
+        {   
+            var filter = Builders<Item>.Filter.ElemMatch<Player>(p => p.Price, p => p.Level >= 0);
+
+            var levelCounts = await _collection.Aggregate()
+                .Match(p => p.Items.Count > 0)
+                .Match(p => p.Price)
+                .Group(prices => p.Price, filter => new BsonDocument("$sum", 1))
+                .SortByDescending(p => p.Count)
+                .FirstAsync();
+
+            return (int)levelCounts.Id;
+        }
+
         public async Task<Player> IncrementPlayerScore(Guid id, int increment)
         {
             var filter = Builders<Player>.Filter.Eq(i => i.Id, id);
