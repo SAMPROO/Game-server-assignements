@@ -24,15 +24,15 @@ namespace ShipGame
         [HttpGet]
         public Task<Match[]> GetAll()
         {
-            Console.WriteLine("Tried to get");
             return _repository.GetAll();
         }
+
         [Route("create")]
-        [HttpPut]
+        [HttpPost]
         public Task<Match> CreateMatch([FromBody]Player[] players)
-        {
+        {   
             if(players.Length == 2)
-                return _repository.CreateMatch(players[0],players[1]);
+                return _repository.CreateMatch(players[0], players[1]);
             else
             {
                 throw new Exception();

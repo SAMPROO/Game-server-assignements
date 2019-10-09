@@ -19,13 +19,16 @@ namespace ShipGame
             _collection = database.GetCollection<Match>("matches");
             _bsonDocumentCollection = database.GetCollection<BsonDocument>("matches");
         }
-        public Task<Match> CreateMatch(Player player1, Player player2)
+        public async Task<Match[]> GetAll()
         {
-            throw new NotImplementedException();
+            var players = await _collection.Find(new BsonDocument()).ToListAsync();
+            return players.ToArray(); 
         }
-        public Task<Match[]> GetAll()
+        public async Task<Match> CreateMatch(Player player1, Player player2)
         {
-            throw new NotImplementedException();
+            Match match = new Match(player1, player2);
+            await _collection.InsertOneAsync(match);
+            return match;         
         }
         public Task<Match> GetMatchStatus(Guid matchId)
         {

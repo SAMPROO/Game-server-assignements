@@ -18,16 +18,28 @@ namespace ShipGame
     }
     public class Player
     {
+        public Player()
+        {
+            
+        }
         public Player(string _name, Ship[] _ships)
         {
             Name = _name;
             Ships = _ships;
         }
-        public string Name {get; private set;}
-        public Ship[] Ships {get; private set;}
+        
+
+        public string Name {get; set;}
+        public Ship[] Ships {get; set;}
     }
     public class Ship
     {
+
+        //public Coordinate Start {get; private set;}
+        //public Coordinate End {get; private set;}
+        public int X { get; set; }
+        public int Y { get; set; }
+        /*
         public Ship(Coordinate start, Coordinate end)
         {
             ShipParts = new List<Coordinate>();
@@ -72,9 +84,11 @@ namespace ShipGame
         }
 
         public List<Coordinate> ShipParts;
+        */
     }
     public struct Coordinate
-    {
+    {   
+        /* 
         public Coordinate(int _x, int _y)
         {
             X = _x;
@@ -93,6 +107,7 @@ namespace ShipGame
                 return coord2;
             }
         }
+        */
         public int X {get; set;}
         public int Y {get; set;}
     }
