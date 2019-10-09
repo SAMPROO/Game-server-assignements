@@ -48,7 +48,7 @@ namespace ShipGame
         }
         public async Task<bool> DeleteAll()
         {
-            var kyrpa = await _collection.DeleteManyAsync("{}");
+            var delete = await _collection.DeleteManyAsync("{}");
 
             return true;
         }
