@@ -31,14 +31,13 @@ namespace ShipGame
             }
             return matchesArr; 
         }
-        public async Task<Match> CreateMatch(Player player1, Player player2)
+        public async Task<Match> CreateMatch(NewPlayer player1, NewPlayer player2)
         {
-            /*
-            Match match = new Match();
-            match.Player1 = player1;
-            match.Player2 = player2;
-            */
-            Match match = new Match(player1,player2);
+            Player p1 = new Player();
+            Player p2 = new Player();
+            p1.Name = player1.Name;
+            p2.Name = player2.Name;
+            Match match = new Match(p1,p2);
             await _collection.InsertOneAsync(match);
             return match;         
         }
@@ -52,6 +51,13 @@ namespace ShipGame
             var kyrpa = await _collection.DeleteManyAsync("{}");
 
             return true;
+        }
+
+        public async Task<Ship[]> AddShip(Guid matchId,Guid playerId,Coordinate pos1,Coordinate pos2)
+        {
+            Ship ship = new Ship(pos1,pos2);
+            Console.WriteLine("------------------------------------------------------------------------");
+            return null;
         }
 
 

@@ -34,7 +34,7 @@ namespace ShipGame
 
         [Route("create")]
         [HttpPost]
-        public Task<Match> CreateMatch([FromBody]Player[] players)
+        public Task<Match> CreateMatch([FromBody]NewPlayer[] players)
         {   
             if(players.Length == 2)
                 return _repository.CreateMatch(players[0], players[1]);
@@ -50,20 +50,31 @@ namespace ShipGame
         {
             return _repository.GetPlayerShips(matchId,playerId);
         }
+        [HttpPost("{matchId}/{playerId}")]
+        public Task<Ship[]> AddShip(Guid matchId,Guid playerId,[FromBody]Coordinate[] coordinates)
+        {
+            Console.WriteLine(coordinates.Length);
+            if(coordinates.Length == 2)
+            {
+                
+                return _repository.AddShip(matchId,playerId,coordinates[0],coordinates[1]);
+            }
+                
+            else
+                throw new Exception();
+        }
 
         [HttpPut("{matchId}/{playerId}")]
         public Task<ActionReport> Shoot(Guid matchId,Guid playerId, [FromBody]Coordinate pos)
         {
-            if(_repository.GetPosition(matchId,playerId,pos).Result)
-            {
-                return _repository.DestroyPiece(matchId,pos);
-            }
-            else
-            {
-                return Task.Run( () => {
+
+            return _repository.DestroyPiece(matchId,pos);
+
+
+            return Task.Run( () => {
                     return new ActionReport(0);
                 });
-            }
+            
             
         }
         [HttpPut("DeleteAll")]

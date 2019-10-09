@@ -30,17 +30,22 @@ namespace ShipGame
     {
         public Player()
         {
-            
+            Id = Guid.NewGuid();
         }
         public Player(string _name, Ship[] _ships)
         {
+            Id = Guid.NewGuid();
             Name = _name;
             Ships = _ships;
         }
         
-
+        public Guid Id {get; set;}
         public string Name {get; set;}
         public Ship[] Ships {get; set;}
+    }
+    public class NewPlayer
+    {
+        public string Name {get;set;}
     }
     public class Ship
     {
