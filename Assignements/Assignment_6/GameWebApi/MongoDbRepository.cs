@@ -6,6 +6,7 @@ using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Hosting;
 using MongoDB.Driver;
 using MongoDB.Bson;
+using System.Linq;
 
 namespace dotnetKole
 {
@@ -152,16 +153,18 @@ namespace dotnetKole
 
         public async Task<List<Tuple<int, int>>> GetItemCountByPrice()
         {   
-            var filter = Builders<Item>.Filter.ElemMatch<Player>(p => p.Price, p => p.Level >= 0);
-
-            var levelCounts = await _collection.Aggregate()
-                .Match(p => p.Items.Count > 0)
-                .Match(p => p.Price)
-                .Group(prices => p.Price, filter => new BsonDocument("$sum", 1))
-                .SortByDescending(p => p.Count)
-                .FirstAsync();
-
-            return (int)levelCounts.Id;
+            var results = _collection.AsQueryable()
+                .SelectMany(p => p.Items, (player, item) => new
+                {
+                    Price = item.Price
+                }
+                .GroupBy((k, s) => new { Key = k, count = s.Count()})
+                .GroupBy(p => p.Key.EndpointId,
+                    (k, s) => new
+                    {
+                        PriceCount = s.Count(),
+                    }
+                ));
         }
 
         public async Task<Player> IncrementPlayerScore(Guid id, int increment)
