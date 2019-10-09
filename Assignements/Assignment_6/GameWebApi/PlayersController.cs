@@ -172,6 +172,14 @@ namespace dotnetKole
         [HttpGet]
         public Task<Player[]> GetAllTopTen()
         {
+            return _repository.GetTopTenSortedByScoreDescending();
+        }
+
+        // Assignment 6 Ex.10.1 BONUS
+        [Route("GetSortedByScore")]
+        [HttpGet]
+        public Task<Player[]> GetAllSortedByScoreDescending()
+        {
             return _repository.GetAllSortedByScoreDescending();
         }
         /*

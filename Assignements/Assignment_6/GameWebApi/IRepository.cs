@@ -19,6 +19,7 @@ namespace dotnetKole
         Task<Player> Create(NewPlayer player);
         Task<Player> Modify(Guid id, ModifiedPlayer player);
         Task<Player> Delete(Guid id);
+        Task<Player[]> GetTopTenSortedByScoreDescending();
         Task<Player[]> GetAllSortedByScoreDescending();
         Task<Player> UpdateNameDirect(Guid id, string name);
         Task<NewItem> CreateItem(Guid playerId, NewItem item);

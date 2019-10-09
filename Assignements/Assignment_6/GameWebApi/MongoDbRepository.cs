@@ -105,7 +105,7 @@ namespace dotnetKole
 
         public async Task<Player[]> GetBetweenLevelsAsync(int minLevel, int maxLevel)
         {
-            var filter = Builders<Player>.Filter.Gte(p => p.Level, 18) & Builders<Player>.Filter.Lte(p => p.Level, 30);
+            var filter = Builders<Player>.Filter.Gte(p => p.Level, minLevel) & Builders<Player>.Filter.Lte(p => p.Level, maxLevel);
             var players = await _collection.Find(filter).ToListAsync();
             return players.ToArray();
         }
@@ -132,6 +132,14 @@ namespace dotnetKole
             modifiedPlayer.Level = player.Level;
             await _collection.ReplaceOneAsync(filter, modifiedPlayer);
             return modifiedPlayer;
+        }
+
+        public async Task<Player[]> GetTopTenSortedByScoreDescending()
+        {
+            var sortDef = Builders<Player>.Sort.Descending(p => p.Score);
+            var players = await _collection.Find(new BsonDocument()).Limit(10).Sort(sortDef).ToListAsync();
+
+            return players.ToArray();
         }
 
         public async Task<Player[]> GetAllSortedByScoreDescending()
