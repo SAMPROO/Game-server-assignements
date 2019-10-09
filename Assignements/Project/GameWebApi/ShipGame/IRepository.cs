@@ -1,3 +1,8 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+
 namespace ShipGame
 {
     public interface IRepository
@@ -6,8 +11,8 @@ namespace ShipGame
         Task<Match[]> GetAll();
         Task<Match> GetMatchStatus(Guid matchId);
         Task<Match> DeleteMatch(Guid matchId);
-        Task<Coordinate> GetPosition(Guid matchId, Guid playerId, Coordinate pos);
-        Task<Coordinate> DestroyPiece(Guid matchId,Coordinate pos);
-        Task<Ship[]> GetPlayersShips(Guid matchId, Guid playerId);
+        Task<bool> GetPosition(Guid matchId, Guid playerId, Coordinate pos);
+        Task<ActionReport> DestroyPiece(Guid matchId,Coordinate pos);
+        Task<Ship[]> GetPlayerShips(Guid matchId, Guid playerId);
     }
 }

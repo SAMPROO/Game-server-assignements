@@ -18,7 +18,7 @@ namespace ShipGame
     }
     public class Player
     {
-        public Player(string _name,Ship[] _ships)
+        public Player(string _name, Ship[] _ships)
         {
             Name = _name;
             Ships = _ships;
@@ -95,5 +95,41 @@ namespace ShipGame
         }
         public int X {get; set;}
         public int Y {get; set;}
+    }
+    public class ActionReport
+    {
+        public ActionReport(string content)
+        {
+            this.Content = content;
+        }
+        public ActionReport(bool hit)
+        {
+            if(hit)
+            {
+                this.Content = "You hit a target";
+            }
+            else
+            {
+                this.Content = "You miss";
+            }
+        }
+        public ActionReport(int type)
+        {
+            if(type == 0)
+            {
+                this.Content = "You miss";
+            }
+            if(type == 1)
+            {
+                this.Content = "You hit a target";
+            }
+            if(type == 2)
+            {
+                this.Content = "You win";
+            }
+
+        }
+        
+        public string Content {get; private set;}
     }
 }

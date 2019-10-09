@@ -16,3 +16,9 @@ D:\Game-server-assignements\Assignements\Project\GameWebApi\obj\Debug\netcoreapp
 D:\Game-server-assignements\Assignements\Project\GameWebApi\obj\Debug\netcoreapp3.0\GameWebApi.RazorTargetAssemblyInfo.cache
 D:\Game-server-assignements\Assignements\Project\GameWebApi\obj\Debug\netcoreapp3.0\GameWebApi.dll
 D:\Game-server-assignements\Assignements\Project\GameWebApi\obj\Debug\netcoreapp3.0\GameWebApi.pdb
+D:\Game-server-assignements\Assignements\Project\GameWebApi\bin\Debug\netcoreapp3.0\DnsClient.dll
+D:\Game-server-assignements\Assignements\Project\GameWebApi\bin\Debug\netcoreapp3.0\MongoDB.Bson.dll
+D:\Game-server-assignements\Assignements\Project\GameWebApi\bin\Debug\netcoreapp3.0\MongoDB.Driver.dll
+D:\Game-server-assignements\Assignements\Project\GameWebApi\bin\Debug\netcoreapp3.0\MongoDB.Driver.Core.dll
+D:\Game-server-assignements\Assignements\Project\GameWebApi\bin\Debug\netcoreapp3.0\SharpCompress.dll
+D:\Game-server-assignements\Assignements\Project\GameWebApi\obj\Debug\netcoreapp3.0\GameWebApi.csproj.CopyComplete

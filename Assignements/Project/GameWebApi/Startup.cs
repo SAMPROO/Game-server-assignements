@@ -26,7 +26,7 @@ namespace ShipGame
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            //services.AddSingleton<IRepository,MongoDbRepository>;
+            services.AddSingleton<IRepository, MongoDbRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
