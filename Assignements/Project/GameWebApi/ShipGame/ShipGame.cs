@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using MongoDB.Bson;
+using MongoDB.Driver;
 
 
 namespace ShipGame
@@ -8,13 +10,22 @@ namespace ShipGame
     {
         public Match(Player _player1 ,Player _player2)
         {
+            InProgress = true;
             Player1 = _player1;
             Player2 = _player2;
-            MatchId = Guid.NewGuid();
+            Id = Guid.NewGuid();
         }
-        public readonly Guid MatchId;
-        public Player Player1;
-        public Player Player2;
+        public Match()
+        {
+            InProgress = true;
+            Id = Guid.NewGuid();
+        }
+
+        public bool InProgress          {get; set;}
+        [BsonId]
+        public Guid Id                  {get; set;}
+        public Player Player1           {get; set;}
+        public Player Player2           {get; set;}
     }
     public class Player
     {
@@ -39,11 +50,18 @@ namespace ShipGame
         //public Coordinate End {get; private set;}
         public int X { get; set; }
         public int Y { get; set; }
-        /*
         public Ship(Coordinate start, Coordinate end)
         {
             ShipParts = new List<Coordinate>();
-
+            CreateShip(start,end);
+            
+        }
+        public Ship()
+        {
+            ShipParts = new List<Coordinate>();
+        }
+        public void CreateShip(Coordinate start, Coordinate end)
+        {
             if(start.X == end.X || start.Y == end.Y)
             {
                 int xDelta = Math.Abs(end.X - start.X);
@@ -84,15 +102,18 @@ namespace ShipGame
         }
 
         public List<Coordinate> ShipParts;
-        */
     }
-    public struct Coordinate
+    public class Coordinate
     {   
-        /* 
+ 
         public Coordinate(int _x, int _y)
         {
             X = _x;
             Y = _y;
+        }
+        public Coordinate()
+        {
+
         }
         public static Coordinate GetLower(Coordinate coord1,Coordinate coord2)
         {
@@ -107,7 +128,7 @@ namespace ShipGame
                 return coord2;
             }
         }
-        */
+        
         public int X {get; set;}
         public int Y {get; set;}
     }

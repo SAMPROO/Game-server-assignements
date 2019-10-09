@@ -20,11 +20,16 @@ namespace ShipGame
         {
             _repository = i;
         }
-
+        [Route("GetAll")]
         [HttpGet]
         public Task<Match[]> GetAll()
         {
             return _repository.GetAll();
+        }
+        [HttpGet("{id}")]
+        public Task<Match> Get(Guid id)
+        {
+            return _repository.Get(id);
         }
 
         [Route("create")]

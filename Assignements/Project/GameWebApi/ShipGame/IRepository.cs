@@ -9,6 +9,7 @@ namespace ShipGame
     {
         Task<Match> CreateMatch(Player player1, Player player2);
         Task<Match[]> GetAll();
+        Task<Match> Get(Guid id);
         Task<Match> GetMatchStatus(Guid matchId);
         Task<Match> DeleteMatch(Guid matchId);
         Task<bool> GetPosition(Guid matchId, Guid playerId, Coordinate pos);
