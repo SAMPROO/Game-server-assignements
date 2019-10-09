@@ -166,9 +166,16 @@ namespace ShipGame
         {
             throw new NotImplementedException();
         }
-        public Task<Ship[]> GetPlayerShips(Guid matchId, Guid playerId)
+        public async Task<Ship[]> GetPlayerShips(Guid matchId, Guid playerId)
         {
-            throw new NotImplementedException();
+            var match = await Get(matchId);
+
+            if (match.Player1.Id == playerId)
+                return match.Player1.Ships.ToArray();
+            else if(match.Player2.Id == playerId)
+                return match.Player2.Ships.ToArray();
+            else
+                throw new NotFoundException(NotFoundException.ErrorType.GUID, playerId);
         }
     }
 }
