@@ -13,12 +13,11 @@ namespace ShipGame
             InProgress = true;
             Player1 = _player1;
             Player2 = _player2;
-            Id = Guid.NewGuid();
+
         }
         public Match()
         {
             InProgress = true;
-            Id = Guid.NewGuid();
         }
 
         public Guid Id                  {get; set;}
@@ -30,7 +29,7 @@ namespace ShipGame
     {
         public Player()
         {
-            Id = Guid.NewGuid();
+
         }
         public Player(string _name, List<Ship> _ships)
         {
@@ -50,10 +49,6 @@ namespace ShipGame
     public class Ship
     {
 
-        //public Coordinate Start {get; private set;}
-        //public Coordinate End {get; private set;}
-        public int X { get; set; }
-        public int Y { get; set; }
         public Ship(Coordinate start, Coordinate end)
         {
             ShipParts = new List<Coordinate>();
@@ -70,8 +65,14 @@ namespace ShipGame
             {
                 int xDelta = Math.Abs(end.X - start.X);
                 int yDelta = Math.Abs(end.Y - start.Y);
-                int xStart = Coordinate.GetLower(start, end).X;
-                int yStart = Coordinate.GetLower(start, end).Y;
+                if(yDelta>0)
+                    yDelta += 1;
+                if(xDelta>0)
+                    xDelta += 1;
+                Coordinate lower = Coordinate.GetLower(start, end);
+                Console.WriteLine(lower.X +" "+lower.Y);
+                int xStart = lower.X;
+                int yStart = lower.Y;
                 if(xDelta == 0 || yDelta == 0)
                 {
                     if(xDelta>4 || yDelta>4)
@@ -105,7 +106,7 @@ namespace ShipGame
             return ShipParts.ToArray();
         }
 
-        public List<Coordinate> ShipParts;
+        public List<Coordinate> ShipParts {get; set;}
     }
     public class Coordinate
     {   

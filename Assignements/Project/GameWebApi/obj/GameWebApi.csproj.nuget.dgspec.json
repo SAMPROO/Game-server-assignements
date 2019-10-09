@@ -1,28 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "C:\\GitHub\\Game-server-assignements\\Assignements\\Project\\GameWebApi\\GameWebApi.csproj": {}
+    "D:\\Game-server-assignements\\Assignements\\Project\\GameWebApi\\GameWebApi.csproj": {}
   },
   "projects": {
-    "C:\\GitHub\\Game-server-assignements\\Assignements\\Project\\GameWebApi\\GameWebApi.csproj": {
+    "D:\\Game-server-assignements\\Assignements\\Project\\GameWebApi\\GameWebApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\GitHub\\Game-server-assignements\\Assignements\\Project\\GameWebApi\\GameWebApi.csproj",
+        "projectUniqueName": "D:\\Game-server-assignements\\Assignements\\Project\\GameWebApi\\GameWebApi.csproj",
         "projectName": "GameWebApi",
-        "projectPath": "C:\\GitHub\\Game-server-assignements\\Assignements\\Project\\GameWebApi\\GameWebApi.csproj",
-        "packagesPath": "C:\\Users\\Sampo\\.nuget\\packages\\",
-        "outputPath": "C:\\GitHub\\Game-server-assignements\\Assignements\\Project\\GameWebApi\\obj\\",
+        "projectPath": "D:\\Game-server-assignements\\Assignements\\Project\\GameWebApi\\GameWebApi.csproj",
+        "packagesPath": "C:\\Users\\Plttr\\.nuget\\packages\\",
+        "outputPath": "D:\\Game-server-assignements\\Assignements\\Project\\GameWebApi\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Sampo\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Plttr\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

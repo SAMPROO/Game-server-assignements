@@ -64,16 +64,11 @@ namespace ShipGame
                 throw new Exception();
         }
 
-        [HttpPut("{matchId}/{playerId}")]
-        public Task<ActionReport> Shoot(Guid matchId,Guid playerId, [FromBody]Coordinate pos)
+        [HttpPut("{matchId}/{playerId}/Shoot")]
+        public Task<Ship[]> Shoot(Guid matchId,Guid playerId, [FromQuery]Coordinate pos)
         {
 
-            return _repository.DestroyPiece(matchId,pos);
-
-
-            return Task.Run( () => {
-                    return new ActionReport(0);
-                });
+            return _repository.DestroyPart(matchId,playerId,pos);
             
             
         }
