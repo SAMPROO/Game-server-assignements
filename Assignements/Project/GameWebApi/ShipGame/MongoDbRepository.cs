@@ -21,8 +21,7 @@ namespace ShipGame
         }
         public async Task<Match[]> GetAll()
         {
-            var matches =  _collection.Find(new BsonDocument()).ToList();
-
+            var matches = await _collection.Find(new BsonDocument()).ToListAsync();
             return matches.ToArray(); 
         }
         public async Task<Match> CreateMatch(NewPlayer player1, NewPlayer player2)
@@ -42,21 +41,24 @@ namespace ShipGame
         }
         public async Task<Match> Get(Guid id)
         {
-            var filter = Builders<Match>.Filter.Eq(p => p.Id, id);
-            return await _collection.Find(filter).FirstAsync();
+            FilterDefinition<Match> filter = Builders<Match>.Filter.Eq(p => p.Id, id);
+            var result = await _collection.Find(filter).FirstOrDefaultAsync();
+            if (result == null)
+                throw new NotFoundException(NotFoundException.ErrorType.GUID, id);
+
+            return result;
         }
         public async Task<bool> DeleteAll()
         {
             var delete = await _collection.DeleteManyAsync("{}");
-
             return true;
         }
 
         public async Task<Ship[]> AddShip(Guid matchId,Guid playerId, Coordinate start, Coordinate end)
         {
+            var match = Get(matchId).Result;
             var filter = Builders<Match>.Filter.Eq(p => p.Id, matchId);
             var newShip = new Ship(start, end);
-            var match = Get(matchId).Result;
             Player player = null;
             if (match.Player1.Id == playerId)
             {
@@ -73,89 +75,77 @@ namespace ShipGame
                 player = match.Player2;
             }
             else
-                throw new Exception("Player does not exist");
+                throw new NotFoundException(NotFoundException.ErrorType.GUID, playerId);
             await _collection.ReplaceOneAsync(filter, match);
             return player.Ships.ToArray();
-
-            
         }
+
         public async Task<Ship[]> DestroyPart(Guid matchId, Guid playerId,Coordinate pos)
         {
-            var filter = Builders<Match>.Filter.Eq(p => p.Id, matchId);
             var match = Get(matchId).Result;
-            if(match == null)
-                throw new Exception("match does not exist");
+            var filter = Builders<Match>.Filter.Eq(p => p.Id, matchId);
             Player enemy = null;
+
             if(match.Player1.Id == playerId)
                 enemy = match.Player2;
-
-            if(match.Player2.Id == playerId)
+            else if(match.Player2.Id == playerId)
                 enemy = match.Player1;
-            if(enemy != null)
+            else
+                throw new NotFoundException(NotFoundException.ErrorType.GUID, playerId);
+
+            if(enemy.Ships == null || enemy.Ships.Count == 0)
             {
-                if(enemy.Ships == null || enemy.Ships.Count == 0)
-                    {
-                        enemy = null;
-                        if(match.Player1.Id == playerId)
-                            match.Player2 = enemy;
-                        if(match.Player2.Id == playerId)
-                            match.Player1 = enemy;
-            
-                        await _collection.ReplaceOneAsync(filter, match);
-                    }
-                else
-                {
-                    bool partWasDestroyed = false;
-                    foreach(Ship ship in enemy.Ships)
-                    {
-                        foreach(Coordinate part in ship.ShipParts)
-                        {   
-                            if(part.X == pos.X && part.Y == pos.Y)
-                            {
-                                ship.ShipParts.Remove(part);
-                                partWasDestroyed = true;
-                                break;
-                            }
-                        }
-                        if(ship.ShipParts.Count==0)
-                        {
-                            partWasDestroyed = true;
-                            enemy.Ships.Remove(ship);
-                        }
-                        if(partWasDestroyed)
-                            break;
-                    }
-                    if(enemy.Ships.Count == 0)
-                    {
-                        enemy = null;
-                        if(match.Player1.Id == playerId)
-                            match.Player2 = enemy;
-                        else
-                            match.Player1 = enemy;
-                        match.InProgress = false;
-                        await _collection.ReplaceOneAsync(filter,match);
-                        return null;
-                    }
-                }
-                
+                enemy = null;
                 if(match.Player1.Id == playerId)
                     match.Player2 = enemy;
                 if(match.Player2.Id == playerId)
                     match.Player1 = enemy;
-            
+    
                 await _collection.ReplaceOneAsync(filter, match);
-                return enemy.Ships.ToArray();
             }
             else
             {
-                if(enemy == null)
-                    throw new Exception("Player does not exist");
-                return null;
+                bool partWasDestroyed = false;
+                foreach(Ship ship in enemy.Ships)
+                {
+                    foreach(Coordinate part in ship.ShipParts)
+                    {   
+                        if(part.X == pos.X && part.Y == pos.Y)
+                        {
+                            ship.ShipParts.Remove(part);
+                            partWasDestroyed = true;
+                            break;
+                        }
+                    }
+                    if(ship.ShipParts.Count==0)
+                    {
+                        partWasDestroyed = true;
+                        enemy.Ships.Remove(ship);
+                    }
+                    if(partWasDestroyed)
+                        break;
+                }
+                if(enemy.Ships.Count == 0)
+                {
+                    enemy = null;
+                    if(match.Player1.Id == playerId)
+                        match.Player2 = enemy;
+                    else
+                        match.Player1 = enemy;
+                    match.InProgress = false;
+                    await _collection.ReplaceOneAsync(filter,match);
+                    return null;
+                }
             }
             
-            
+            if(match.Player1.Id == playerId)
+                match.Player2 = enemy;
+            if(match.Player2.Id == playerId)
+                match.Player1 = enemy;
+        
+            await _collection.ReplaceOneAsync(filter, match);
+            return enemy.Ships.ToArray();
         }
-
 
         public Task<Match> GetMatchStatus(Guid matchId)
         {

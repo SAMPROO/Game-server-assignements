@@ -20,15 +20,17 @@ namespace ShipGame
         {
             _repository = i;
         }
+
         [Route("GetAll")]
         [HttpGet]
         public Task<Match[]> GetAll()
         {
             return _repository.GetAll();
         }
-        [HttpGet("{id}")]
+
+        [HttpGet("{id:guid}")]
         public Task<Match> Get(Guid id)
-        {
+        {   
             return _repository.Get(id);
         }
 
@@ -50,7 +52,7 @@ namespace ShipGame
                 return _repository.CreateMatch(players[0], players[1]);
             else
             {
-                throw new Exception();
+                throw new NotFoundException("Too many player being created. Only 2 allowed per game.");
                 //throw new InvalidMatchParametersException;
                 Console.WriteLine("Invalid Match parameters");
             } 
@@ -79,7 +81,7 @@ namespace ShipGame
         {
             return _repository.DestroyPart(matchId,playerId,pos);
         }
-        
+
         [HttpPut("DeleteAll")]
         public Task<bool> DeleteAll()
         {
