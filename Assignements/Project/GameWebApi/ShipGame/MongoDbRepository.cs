@@ -31,8 +31,10 @@ namespace ShipGame
             Player p2 = new Player();
             p1.Name = player1.Name;
             p1.Id = Guid.NewGuid();
+            p1.Ships = new List<Ship>();
             p2.Name = player2.Name;
             p2.Id = Guid.NewGuid();
+            p2.Ships = new List<Ship>();
             Match match = new Match(p1,p2);
             match.Id = Guid.NewGuid();
             await _collection.InsertOneAsync(match);
