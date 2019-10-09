@@ -80,7 +80,7 @@ namespace dotnetKole
 
         // Assignment 6 Ex.2
         [HttpGet("{name}")]
-        public Task<Player> Get(string name)
+        public Task<List<Player>> Get(string name)
         {   
             return _repository.Get(name);
         }
@@ -188,6 +188,14 @@ namespace dotnetKole
                 return playersTopTenSorted.ToArray();
             } );
         */
+
+        // Assignment 6 Ex.11
+        [Route("GetMostCommonLevel")]
+        [HttpGet]
+        public Task<int> GetMostCommonLevel()
+        {
+            return _repository.GetMostCommonLevel();
+        }
         
         [HttpPost]
         public Task<Player> Create([FromBody]NewPlayer player)

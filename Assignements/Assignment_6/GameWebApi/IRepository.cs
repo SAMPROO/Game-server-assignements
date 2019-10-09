@@ -7,7 +7,7 @@ namespace dotnetKole
     public interface IRepository
     {
         Task<Player> Get(Guid id);
-        Task<Player> Get(string name);
+        Task<List<Player>> Get(string name);
         Task<List<Player>> GetByTag(int tag);
         Task<List<Player>> GetWithItemType(int type);
         Task<List<Player>> GetPlayersByItemAmount(int amount);
@@ -22,6 +22,7 @@ namespace dotnetKole
         Task<Player> UpdateNameDirect(Guid id, string name);
         Task<NewItem> CreateItem(Guid playerId, NewItem item);
         //Task<Player> AddItemToPlayer(Guid playerId, NewItem item);
+        Task<int> GetMostCommonLevel();
         Task<Item> GetItem(Guid playerId, Guid itemId);
         Task<Item[]> GetAllItems(Guid playerId);
         Task<Item> UpdateItem(Guid playerId, Guid item, ModifiedItem modifiedItem);

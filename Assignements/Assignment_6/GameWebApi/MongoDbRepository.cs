@@ -73,10 +73,10 @@ namespace dotnetKole
             var filter = Builders<Player>.Filter.Eq(p => p.Id, id);
             return await _collection.Find(filter).FirstAsync();
         }
-        public async Task<Player> Get(string name)
+        public async Task<List<Player>> Get(string name)
         {
             var filter = Builders<Player>.Filter.Eq(p => p.Name, name);
-            return await _collection.Find(filter).FirstAsync();
+            return await _collection.Find(filter).ToListAsync();
         }
 
         public async Task<List<Player>> GetByTag(int tag)
@@ -128,6 +128,7 @@ namespace dotnetKole
             FilterDefinition<Player> filter = Builders<Player>.Filter.Eq(p => p.Id, id);
             Player modifiedPlayer = Get(id).Result;
             modifiedPlayer.Score = player.Score;
+            modifiedPlayer.Level = player.Level;
             await _collection.ReplaceOneAsync(filter, modifiedPlayer);
             return modifiedPlayer;
         }
@@ -138,6 +139,15 @@ namespace dotnetKole
             var players = await _collection.Find(new BsonDocument()).Sort(sortDef).ToListAsync();
 
             return players.ToArray();
+        }
+
+        public async Task<int> GetMostCommonLevel()
+        {   
+            var levelCounts = await _collection.Aggregate()
+                .SortByCount(p => p.Level)
+                .FirstAsync();
+
+            return (int)levelCounts.Id;
         }
 
         public async Task<Player> IncrementPlayerScore(Guid id, int increment)
