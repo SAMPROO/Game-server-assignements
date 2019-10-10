@@ -1,22 +1,27 @@
 using System;
 using System.Collections.Generic;
-using MongoDB.Bson;
-using MongoDB.Driver;
-
 
 namespace ShipGame
 {
     public class Match
     {
-        public Match(Player _player1 ,Player _player2)
+        private IRepository _repository;
+
+        public Match(IRepository i)
         {
+            _repository = i;
+        }
+        public Match(Player _player1, Player _player2)
+        {
+            Id = Guid.NewGuid();
             InProgress = true;
+
             Player1 = _player1;
             Player2 = _player2;
-
         }
         public Match()
         {
+            Id = Guid.NewGuid();
             InProgress = true;
         }
 
@@ -27,9 +32,20 @@ namespace ShipGame
     }
     public class Player
     {
-        public Player()
+        public Player(string name)
         {
+            Id = Guid.NewGuid();
+            Name = name;
+            Ships = new List<Ship>();
+        }
 
+        public Player(string name, Guid match)
+        {
+            InMatchBool = true;
+            InMatchGuid = match;
+            Id = Guid.NewGuid();
+            Name = name;
+            Ships = new List<Ship>();
         }
         public Player(string _name, List<Ship> _ships)
         {
@@ -41,6 +57,10 @@ namespace ShipGame
         public Guid Id {get; set;}
         public string Name {get; set;}
         public List<Ship> Ships {get; set;}
+        public Guid InMatchGuid {get; set;}
+        public bool InMatchBool {get; set;}
+        public int Wins {get; set;}
+        public int Losses {get; set;}
     }
     public class NewPlayer
     {
@@ -48,7 +68,6 @@ namespace ShipGame
     }
     public class Ship
     {
-
         public Ship(Coordinate start, Coordinate end)
         {
             ShipParts = new List<Coordinate>();

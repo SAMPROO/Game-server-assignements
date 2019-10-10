@@ -1,15 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore;
 using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.Contracts;
 
 namespace ShipGame
 {
-    [Route("api")]
+    [Route("api/matches")]
     [ApiController]
     public class MatchController
     {
@@ -43,17 +38,20 @@ namespace ShipGame
             }
         ]
         */
-        [Route("Create")]
+        [Route("Create/{p1}/{p2}")]
         [HttpPost]
-        public Task<Match> CreateMatch([FromBody]NewPlayer[] players)
+        public Task<Match> CreateMatch(string p1, string p2)
         {   
-            if(players.Length == 2)
-                return _repository.CreateMatch(players[0], players[1]);
-            else
-            {
-                throw new NotFoundException("Too many player being created. Only 2 allowed per game.");
-            } 
+            return _repository.CreateMatch(p1, p2);
         }
+
+        [Route("Create/{playerOneId:guid}/{playerTwoId:guid}")]
+        [HttpPost]
+        public Task<Match> CreateMatch(Guid playerOneId, Guid playerTwoId)
+        {   
+            return _repository.CreateMatch(playerOneId, playerTwoId);
+        }
+
         [HttpGet("{matchId}/{playerId}")]
         public Task<Ship[]> GetPlayerShips(Guid matchId,Guid playerId)
         {

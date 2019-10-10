@@ -10,13 +10,15 @@ namespace ShipGame
     public class MongoDbRepository : IRepository
     {
         private readonly IMongoCollection<Match> _collection;
+        private readonly IMongoCollection<Player> _collectionPlayers;
         private readonly IMongoCollection<BsonDocument> _bsonDocumentCollection;
 
         public MongoDbRepository()
         {
-             var mongoClient = new MongoClient("mongodb://localhost:27017");
+            var mongoClient = new MongoClient("mongodb://localhost:27017");
             var database = mongoClient.GetDatabase("ShipGame");
             _collection = database.GetCollection<Match>("matches");
+            _collectionPlayers = database.GetCollection<Player>("players");
             _bsonDocumentCollection = database.GetCollection<BsonDocument>("matches");
         }
         public async Task<Match[]> GetAll()
@@ -24,20 +26,57 @@ namespace ShipGame
             var matches = await _collection.Find(new BsonDocument()).ToListAsync();
             return matches.ToArray(); 
         }
-        public async Task<Match> CreateMatch(NewPlayer player1, NewPlayer player2)
+        public async Task<Player[]> GetAllPlayers()
         {
-            Player p1 = new Player();
-            Player p2 = new Player();
-            p1.Name = player1.Name;
-            p1.Id = Guid.NewGuid();
-            p1.Ships = new List<Ship>();
-            p2.Name = player2.Name;
-            p2.Id = Guid.NewGuid();
-            p2.Ships = new List<Ship>();
-            Match match = new Match(p1,p2);
-            match.Id = Guid.NewGuid();
+            var players = await _collectionPlayers.Find(new BsonDocument()).ToListAsync();
+            return players.ToArray(); 
+        }
+        public async Task<Match> CreateMatch(string player1, string player2)
+        {
+            Match match = new Match();
+
+            Player p1 = new Player(player1, match.Id);
+            Player p2 = new Player(player2, match.Id);
+
+            match.Player1 = p1;
+            match.Player2 = p2;
+
+            await _collectionPlayers.InsertOneAsync(p1);
+            await _collectionPlayers.InsertOneAsync(p2);
             await _collection.InsertOneAsync(match);
             return match;         
+        }
+
+        public async Task<Match> CreateMatch(Guid player1, Guid player2)
+        {
+
+            FilterDefinition<Player> playerOneFilter = Builders<Player>.Filter.Eq(p => p.Id, player1);
+            FilterDefinition<Player> playerTwoFilter = Builders<Player>.Filter.Eq(p => p.Id, player2);
+
+            var p1Result = await _collectionPlayers.Find(playerOneFilter).FirstOrDefaultAsync();
+            var p2Result = await _collectionPlayers.Find(playerTwoFilter).FirstOrDefaultAsync();
+
+            if (p1Result == null)
+                throw new NotFoundException(NotFoundException.ErrorType.GUID, player1);
+            else if (p2Result == null)
+                throw new NotFoundException(NotFoundException.ErrorType.GUID, player2);
+
+            if (await CheckIfInMatch(player1))
+                throw new NotFoundException(player1 + " Already in game.");
+            else if (await CheckIfInMatch(player2))
+                throw new NotFoundException(player2 + " Already in game.");
+
+            Match match = new Match(p1Result, p2Result);
+            p1Result.InMatchBool = true;
+            p1Result.InMatchBool = true;
+            p1Result.InMatchGuid = match.Id;
+            p2Result.InMatchGuid = match.Id;
+
+            await _collection.InsertOneAsync(match);
+            await _collectionPlayers.ReplaceOneAsync(playerOneFilter, p1Result);
+            await _collectionPlayers.ReplaceOneAsync(playerTwoFilter, p2Result);
+
+            return match;
         }
         public async Task<Match> Get(Guid id)
         {
@@ -48,9 +87,34 @@ namespace ShipGame
 
             return result;
         }
+        public async Task<Player> GetPlayer(Guid id)
+        {
+            FilterDefinition<Player> filter = Builders<Player>.Filter.Eq(p => p.Id, id);
+            var result = await _collectionPlayers.Find(filter).FirstOrDefaultAsync();
+            if (result == null)
+                throw new NotFoundException(NotFoundException.ErrorType.GUID, id);
+
+            return result;
+        }
+
+        public async Task<Player[]> GetPlayer(string name)
+        {
+            FilterDefinition<Player> filter = Builders<Player>.Filter.Eq(p => p.Name, name);
+            var result = await _collectionPlayers.Find(filter).ToListAsync();
+            if (result == null)
+                throw new NotFoundException(NotFoundException.ErrorType.STRING, name);
+
+            return result.ToArray();
+        }
         public async Task<bool> DeleteAll()
         {
             var delete = await _collection.DeleteManyAsync("{}");
+            return true;
+        }
+
+        public async Task<bool> DeleteAllPlayers()
+        {
+            var delete = await _collectionPlayers.DeleteManyAsync("{}");
             return true;
         }
 
@@ -153,6 +217,12 @@ namespace ShipGame
             return status.InProgress;
         }
 
+        public async Task<bool> CheckIfInMatch(Guid playerId)
+        {
+            var player = await GetPlayer(playerId);
+            return player.InMatchBool ? true : false;
+        }
+
         public async Task<Match[]> GetLiveMatches()
         {
             FilterDefinition<Match> filter = Builders<Match>.Filter.Eq(p => p.InProgress, true);
@@ -167,6 +237,13 @@ namespace ShipGame
         {   
             Match match = Get(matchId).Result;
             await _collection.DeleteOneAsync(Builders<Match>.Filter.Eq(p => p.Id, matchId));
+
+            return match;
+        }
+        public async Task<Player> DeletePlayer(Guid playerId)
+        {   
+            Player match = GetPlayer(playerId).Result;
+            await _collectionPlayers.DeleteOneAsync(Builders<Player>.Filter.Eq(p => p.Id, playerId));
 
             return match;
         }
@@ -188,6 +265,13 @@ namespace ShipGame
                 return match.Player2.Ships.ToArray();
             else
                 throw new NotFoundException(NotFoundException.ErrorType.GUID, playerId);
+        }
+
+        public async Task<Player> CreatePlayer(string name)
+        {
+            Player newPlayer = new Player(name);
+            await _collectionPlayers.InsertOneAsync(newPlayer);
+            return newPlayer;
         }
     }
 }

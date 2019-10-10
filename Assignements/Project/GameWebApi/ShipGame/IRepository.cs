@@ -7,17 +7,30 @@ namespace ShipGame
 {
     public interface IRepository
     {
-        Task<Match> CreateMatch(NewPlayer player1, NewPlayer player2);
-        Task<Match[]> GetAll();
         Task<Match> Get(Guid id);
+        Task<Match[]> GetAll();
+        Task<Match> CreateMatch(string player1, string player2);
+        Task<Match> CreateMatch(Guid playerOneId, Guid playerTwoId);
         Task<Match[]> GetLiveMatches();
+        Task<Ship[]> GetPlayerShips(Guid matchId, Guid playerId);
+        Task<bool> GetPosition(Guid matchId, Guid playerId, Coordinate pos);
         Task<bool> CheckIfInProgress(Guid matchId);
         Task<Ship[]> AddShip(Guid matchId, Guid playerId,Coordinate pos1, Coordinate pos2);
-        Task<Match> DeleteMatch(Guid matchId);
-        Task<bool> GetPosition(Guid matchId, Guid playerId, Coordinate pos);
         Task<Ship[]> DestroyPart(Guid matchId,Guid playerId,Coordinate pos);
-        Task<Ship[]> GetPlayerShips(Guid matchId, Guid playerId);
+        Task<Match> DeleteMatch(Guid matchId);
         Task<bool> DeleteAll();
+
+        /////////////////////////////////////////////////
+
+        Task<Player> GetPlayer(Guid id);
+        Task<Player[]> GetPlayer(string name);
+        Task<Player[]> GetAllPlayers();
+        Task<Player> CreatePlayer(string name);
+        Task<bool> CheckIfInMatch(Guid playerId);
+        Task<Player> DeletePlayer(Guid matchId);
+        Task<bool> DeleteAllPlayers();
+
+
 
     }
 }
