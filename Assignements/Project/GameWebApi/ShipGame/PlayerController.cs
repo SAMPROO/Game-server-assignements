@@ -28,6 +28,13 @@ namespace ShipGame
             return _repository.GetPlayer(id);
         }
 
+        [Route("GetTopPlayer/{top:int}")]
+        [HttpGet]
+        public Task<Player[]> GetTopPlayer(int top = 1)
+        {   
+            return _repository.GetTopPlayer(top);
+        }
+
         [Route("{name}")]
         [HttpGet]
         public Task<Player[]> GetPlayer(string name)

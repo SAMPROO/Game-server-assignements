@@ -106,6 +106,14 @@ namespace ShipGame
 
             return result.ToArray();
         }
+
+        public async Task<Player[]> GetTopPlayer(int top)
+        {
+            var sortDef = Builders<Player>.Sort.Descending(p => p.Wins);
+            var players = await _collectionPlayers.Find(new BsonDocument()).Limit(top).Sort(sortDef).ToListAsync();
+
+            return players.ToArray();
+        }
         public async Task<bool> DeleteAll()
         {
             var delete = await _collection.DeleteManyAsync("{}");

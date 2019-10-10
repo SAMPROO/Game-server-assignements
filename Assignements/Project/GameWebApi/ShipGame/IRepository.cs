@@ -25,6 +25,7 @@ namespace ShipGame
         Task<Player> GetPlayer(Guid id);
         Task<Player[]> GetPlayer(string name);
         Task<Player[]> GetAllPlayers();
+        Task<Player[]> GetTopPlayer(int top = 1);
         Task<Player> CreatePlayer(string name);
         Task<bool> CheckIfInMatch(Guid playerId);
         Task<Player> DeletePlayer(Guid matchId);
