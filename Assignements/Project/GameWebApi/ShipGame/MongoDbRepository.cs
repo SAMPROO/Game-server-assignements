@@ -68,7 +68,7 @@ namespace ShipGame
 
             Match match = new Match(p1Result, p2Result);
             p1Result.InMatchBool = true;
-            p1Result.InMatchBool = true;
+            p2Result.InMatchBool = true;
             p1Result.InMatchGuid = match.Id;
             p2Result.InMatchGuid = match.Id;
 
