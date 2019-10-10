@@ -152,29 +152,28 @@ namespace ShipGame
             return player.Ships.ToArray();
         }
 
-        public async Task<Ship[]> DestroyPart(Guid matchId, Guid playerId,Coordinate pos)
+        public async Task<Ship[]> DestroyPart(Guid matchId, Guid playerId, Coordinate pos)
         {
             var match = Get(matchId).Result;
             var filter = Builders<Match>.Filter.Eq(p => p.Id, matchId);
             Player enemy = null;
+            Player player = null;
 
             if(match.Player1.Id == playerId)
+            {
                 enemy = match.Player2;
+                player = match.Player1;
+            }
             else if(match.Player2.Id == playerId)
+            {
                 enemy = match.Player1;
+                player = match.Player2;
+            }
             else
                 throw new NotFoundException(NotFoundException.ErrorType.GUID, playerId);
 
             if(enemy.Ships == null || enemy.Ships.Count == 0)
-            {
-                enemy = null;
-                if(match.Player1.Id == playerId)
-                    match.Player2 = enemy;
-                if(match.Player2.Id == playerId)
-                    match.Player1 = enemy;
-    
-                await _collection.ReplaceOneAsync(filter, match);
-            }
+                await GameOver(player, enemy, match);
             else
             {
                 bool partWasDestroyed = false;
@@ -280,6 +279,29 @@ namespace ShipGame
             Player newPlayer = new Player(name);
             await _collectionPlayers.InsertOneAsync(newPlayer);
             return newPlayer;
+        }
+
+        public async Task<Player> GameOver(Player winner, Player looser, Match match)
+        {
+            FilterDefinition<Player> winnerFilter = Builders<Player>.Filter.Eq(p => p.Id, winner.Id);
+            FilterDefinition<Player> looserFilter = Builders<Player>.Filter.Eq(p => p.Id, looser.Id);
+
+
+            winner.Wins = winner.Wins + 1;
+            winner.InMatchBool = false;
+            winner.InMatchGuid = Guid.Empty;
+            winner.Ships.Clear();
+
+            looser.Losses = looser.Losses + 1;
+            looser.InMatchBool = false;
+            looser.InMatchGuid = Guid.Empty;
+            looser.Ships.Clear();
+
+            await DeleteMatch(match.Id);
+            await _collectionPlayers.ReplaceOneAsync(winnerFilter, winner);
+            await _collectionPlayers.ReplaceOneAsync(looserFilter, looser);
+
+            return winner;
         }
     }
 }

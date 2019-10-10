@@ -19,7 +19,7 @@ namespace ShipGame
         Task<Ship[]> DestroyPart(Guid matchId,Guid playerId,Coordinate pos);
         Task<Match> DeleteMatch(Guid matchId);
         Task<bool> DeleteAll();
-
+        Task<Player> GameOver(Player winner, Player looser, Match match);
         /////////////////////////////////////////////////
 
         Task<Player> GetPlayer(Guid id);
