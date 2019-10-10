@@ -237,7 +237,7 @@ namespace dotnetKole
 
         public async Task<Item> GetItem(Guid playerId, Guid itemId)
         {
-            Player player = Get(playerId).Result;
+            Player player = await Get(playerId);
             foreach (var item in player.Items)
             {
                 if (item.Id == itemId)
