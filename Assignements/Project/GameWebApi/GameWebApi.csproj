@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="MongoDb.Driver" Version="2.9.2" />
-    <PackageReference Include="NewtonSoft.Json" Version="12.0.2" />
+    <PackageReference Include="NewtonSoft.Json" Version="13.0.2" />
   </ItemGroup>
 
 </Project>
